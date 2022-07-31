@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'helloworldapp.apps.HelloworldappConfig',  # app名のあとに.apps.AppnameConfigを追加
     'todo.apps.TodoConfig',
+    'boardapp.apps.BoardappConfig',
 ]
 
 MIDDLEWARE = [

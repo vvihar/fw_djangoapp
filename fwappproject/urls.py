@@ -24,4 +24,5 @@ urlpatterns = [
     path('helloworld/', helloWorldView.as_view()),
     path('app/', include('helloworldapp.urls')),
     path('todo/', include('todo.urls')),
+    path('board/', include('boardapp.urls')),
 ]
