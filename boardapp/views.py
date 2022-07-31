@@ -39,3 +39,7 @@ def loginfunc(request):
 
 # render: 受け取った情報を組み合わせてページを表示
 # redirect: 別のビューを返す
+
+
+def listfunc(request):
+    return render(request, 'board/list.html', {})

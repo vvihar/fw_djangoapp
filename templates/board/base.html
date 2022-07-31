@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
@@ -13,16 +13,62 @@
             crossorigin="anonymous"
         />
 
-        <title>Hello, world!</title>
+        <title>FairWind Portal</title>
     </head>
     <body>
-
-        {% block header %}
-
-        {% endblock header %}
-
-        {% block content %}
-        {% endblock content %}
-
+        <nav class="py-2 bg-dark border-bottom">
+            <div class="container d-flex flex-wrap gap-4">
+                <span class="fs-4 text-white">FairWind Portal</span>
+                <ul class="nav me-auto">
+                    <li class="nav-item">
+                        <a
+                            href="/"
+                            class="nav-link text-white px-2 active"
+                            aria-current="page"
+                            >Home</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a href="/todo" class="nav-link text-white px-2">To Do</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white px-2">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white px-2">FAQs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white px-2">About</a>
+                    </li>
+                </ul>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white px-2">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white px-2">Sign up</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <header class="py-3 mb-4 border-bottom">
+            <div class="container d-flex flex-wrap justify-content-center">
+                <a
+                    href="{% url '' %}"
+                    class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none"
+                >
+                    <span class="fs-4">{%block header%} {%endblock header%}</span>
+                </a>
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0">
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="Search..."
+                        aria-label="Search"
+                    />
+                </form>
+            </div>
+        </header>
+        {%block content%} {%endblock content%}
     </body>
 </html>
