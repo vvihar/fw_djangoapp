@@ -189,3 +189,5 @@ env
 .idea/*
 .DS_STORE
 .vscode
+
+media/
