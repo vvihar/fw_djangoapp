@@ -1,0 +1,17 @@
+{% extends 'todo/base.html' %}
+
+{% block header %}
+Todoを削除
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <div class="mb-3">
+            <strong>{{object.title}}</strong>を削除しますか？
+        </div>
+    <form action="" method="POST">{% csrf_token %}
+        <input type="submit" value="削除" class="btn btn-danger">
+        <a href="{% url '' %}" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">キャンセル</a>
+    </form>
+</div>
+{% endblock content %}
