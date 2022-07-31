@@ -1,5 +1,5 @@
 from sqlite3 import IntegrityError
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login
@@ -18,7 +18,7 @@ def signupfunc(request):
         except IntegrityError:  # 重複したユーザー名の場合
             return render(request, 'board/signup.html', {'error': 'このユーザー名は既に使用されています'})
     # request, テンプレのファイル, モデルのデータを引数にとる
-    return render(request, 'board/signup.html', {})
+    return redirect('login')
 
 
 def loginfunc(request):
@@ -36,3 +36,6 @@ def loginfunc(request):
                 return render(request, 'board/login.html', {'context': 'not logged in'})
     # ただのアクセス
     return render(request, 'board/login.html', {'context': 'get method'})
+
+# render: 受け取った情報を組み合わせてページを表示
+# redirect: 別のビューを返す
