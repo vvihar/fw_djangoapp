@@ -5,11 +5,10 @@ from django.contrib.auth.models import User
 
 
 def signupfunc(request):
-    object = User.objects.get(username='yakushijin-s')  # すべての情報を格納
-    print(object.email)
+    # print(request.POST)
     if request.method == 'POST':
-        print('this is POST')
-    else:
-        print('this is GET')
+        username = request.POST['username']
+        password = request.POST['password']
+        user = User.objects.create_user(username, '', password)
     # request, テンプレのファイル, モデルのデータを引数にとる
     return render(request, 'board/signup.html', {'some': 100})
