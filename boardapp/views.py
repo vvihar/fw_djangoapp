@@ -59,3 +59,18 @@ def logoutfunc(request):
 def detailfunc(request, pk):
     object = get_object_or_404(BoardModel, pk=pk)
     return render(request, 'board/detail.html', {'object': object})
+
+
+def goodfunc(request, pk):
+    # object = get_object_or_404(BoardModel, pk=pk) # <-この記法でも良い
+    object = BoardModel.objects.get(pk=pk)
+    object.good += 1
+    object.save()
+    return redirect('list')
+
+
+def readfunc(request, pk):
+    object = get_object_or_404(BoardModel, pk=pk)
+    object.read += 1
+    object.save()
+    return redirect('list')
