@@ -8,6 +8,7 @@ from .models import BoardModel
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -59,11 +60,13 @@ def logoutfunc(request):
     return redirect('boardapp:login')
 
 
+@login_required
 def detailfunc(request, pk):
     object = get_object_or_404(BoardModel, pk=pk)
     return render(request, 'board/detail.html', {'object': object})
 
 
+@login_required
 def goodfunc(request, pk):
     # object = get_object_or_404(BoardModel, pk=pk) # <-この記法でも良い
     object = BoardModel.objects.get(pk=pk)
@@ -72,6 +75,7 @@ def goodfunc(request, pk):
     return redirect('boardapp:list')
 
 
+@login_required
 def readfunc(request, pk):
     object = BoardModel.objects.get(pk=pk)
     username = request.user.get_username()
@@ -84,7 +88,7 @@ def readfunc(request, pk):
     return redirect('boardapp:list')
 
 
-class BoardCreate(CreateView):
+class BoardCreate(LoginRequiredMixin, CreateView):
     template_name = 'board/create.html'
     model = BoardModel
     fields = ['title', 'content', 'author', 'sns_image']
