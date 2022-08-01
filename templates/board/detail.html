@@ -7,14 +7,13 @@ FairWind Chat
 {% block content %}
 {% if user.is_authenticated %}
 <div class="container">
-    {% for item in object_list %}
     <div class="alert alert-success" role="alert">
-        <p>タイトル：<a href="{% url 'detail' item.pk %}">{{ item.title }}</a></p>
-        <p>投稿者：{{ item.author }}</p>
+        <p>タイトル：{{ object.title }}</p>
+        <p>投稿者：{{ object.author }}</p>
+        <p><img src="{{ object.sns_image.url }}" alt="" width="100%"></p>
         <a href="#" class="btn btn-primary" role="button" aria-pressed="true">いいね</a>
         <a href="#" class="btn btn-secondary" role="button" aria-pressed="true">既読</a>
     </div>
-    {% endfor %}
 </div>
 {% else %}
 Please Login

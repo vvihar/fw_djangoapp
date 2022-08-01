@@ -1,10 +1,11 @@
 from django.urls import path, include
-from .views import signupfunc, loginfunc, listfunc, logoutfunc
+from .views import signupfunc, loginfunc, listfunc, logoutfunc, detailfunc
 
 urlpatterns = [
     path('', listfunc),
     path('signup/', signupfunc, name="signup"),
     path('login/', loginfunc, name="login"),
     path('list/', listfunc, name="list"),
-    path('logout/', logoutfunc, name="logout")
+    path('logout/', logoutfunc, name="logout"),
+    path('detail/<int:pk>/', detailfunc, name="detail"),
 ]
