@@ -10,9 +10,15 @@ FairWind Chat
     <div class="alert alert-success" role="alert">
         <p>タイトル：{{ object.title }}</p>
         <p>投稿者：{{ object.author }}</p>
-        <p><img src="{{ object.sns_image.url }}" alt="" width="100%"></p>
-        <a href="{% url 'good' object.pk %}" class="btn btn-primary" role="button" aria-pressed="true">いいね {{ object.good }}</a>
-        <a href="{% url 'read' object.pk %}" class="btn btn-secondary disabled" role="button" aria-pressed="true">既読 {{ object.read }}</a>
+        <p>
+            <img src="{{ object.sns_image.url }}" alt="" width="100%">
+        </p>
+        <a href="{% url 'good' object.pk %}" class="btn btn-primary" role="button" aria-pressed="true">
+            いいね {{ object.good }}
+        </a>
+        <a href="{% url 'read' object.pk %}" class="btn btn-secondary" role="button" aria-pressed="true">
+            既読 {{ object.read }}
+        </a>
     </div>
 </div>
 {% else %}

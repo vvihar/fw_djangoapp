@@ -11,8 +11,12 @@ FairWind Chat
     <div class="alert alert-success" role="alert">
         <p>タイトル：<a href="{% url 'detail' item.pk %}">{{ item.title }}</a></p>
         <p>投稿者：{{ item.author }}</p>
-        <a href="{% url 'good' item.pk %}" class="btn btn-primary" role="button" aria-pressed="true">いいね {{ item.good }}</a>
-        <a href="{% url 'read' item.pk %}" class="btn btn-secondary disabled" role="button" aria-pressed="true">既読 {{ item.read }}</a>
+        <a href="{% url 'good' item.pk %}" class="btn btn-primary" role="button" aria-pressed="true">
+            いいね {{ item.good }}
+        </a>
+        <a href="{% url 'read' item.pk %}" class="btn btn-secondary" role="button" aria-pressed="true">
+            既読 {{ item.read }}
+        </a>
     </div>
     {% endfor %}
 </div>

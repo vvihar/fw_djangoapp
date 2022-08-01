@@ -70,7 +70,12 @@ def goodfunc(request, pk):
 
 
 def readfunc(request, pk):
-    object = get_object_or_404(BoardModel, pk=pk)
-    object.read += 1
-    object.save()
+    object = BoardModel.objects.get(pk=pk)
+    username = request.user.get_username()
+    if username in object.readtext:
+        pass
+    else:
+        object.read += 1
+        object.readtext += ' ' + username
+        object.save()
     return redirect('list')
