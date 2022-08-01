@@ -29,19 +29,24 @@ def signupfunc(request):
 
 def loginfunc(request):
     if request.method == 'POST':
+        next = request.POST.get('next')
         if request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
             user = authenticate(request, username=username, password=password)
             if user is not None:  # user がいる場合
                 login(request, user)
+                if next == 'None':
+                    return redirect('boardapp:list')  # list ページにリダイレクト
+                else:
+                    return redirect(to=next)
                 # login 成功
-                return redirect('boardapp:list')  # list ページにリダイレクト
             else:
                 # login 失敗
                 return render(request, 'board/login.html', {})
-    # ただのアクセス
-    return render(request, 'board/login.html', {})
+    else:
+        next = request.GET.get('next')
+    return render(request, 'board/login.html', {'next': next})  # ただのアクセス
 
 # render: 受け取った情報を組み合わせてページを表示
 # redirect: 別のビューを返す
