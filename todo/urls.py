@@ -17,10 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from .views import TodoList, TodoDetail, TodoCreate, TodoDelete, TodoUpdate
 
+app_name = 'todoapp'
+
 urlpatterns = [
     path('', TodoList.as_view(), name=''),
     path('detail/<int:pk>', TodoDetail.as_view(), name='detail'),
     path('create/', TodoCreate.as_view(), name='create'),
-    path('delete/<int:pk>', TodoDelete.as_view(), name='delete'),  # どのデータを扱うかを指定する必要があれば、pk
+    path('delete/<int:pk>', TodoDelete.as_view(),
+         name='delete'),  # どのデータを扱うかを指定する必要があれば、pk
     path('edit/<int:pk>', TodoUpdate.as_view(), name='edit'),
 ]

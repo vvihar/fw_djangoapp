@@ -27,7 +27,8 @@ class TodoCreate(CreateView):
 class TodoDelete(DeleteView):
     template_name = 'todo/delete.html'
     model = TodoModel
-    success_url = reverse_lazy('') #成功時の遷移先
+    success_url = reverse_lazy('')  # 成功時の遷移先
+
 
 class TodoUpdate(UpdateView):
     template_name = 'todo/update.html'

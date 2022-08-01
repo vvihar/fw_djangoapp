@@ -5,15 +5,15 @@ TodoList
 
 {% block content %}
 <div class="container">
-    <a href="{% url 'create' %}" class="btn btn-secondary mb-2" tabindex="-1" role="button" aria-disabled="true">新規作成</a>
+    <a href="{% url 'todoapp:create' %}" class="btn btn-secondary mb-2" tabindex="-1" role="button" aria-disabled="true">新規作成</a>
     {% for item in object_list %}
     <div class="alert alert-{{item.priority}}" role="alert">
         <p>{{item.title}}
             <span class="badge rounded-pill bg-light text-dark">{{item.duedate | date:"Y/m/d" }}まで</span></p>
         <div class="btn-group" role="group">
-            <a href="{% url 'detail' item.pk %}" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">詳細</a>
-            <a href="{% url 'edit' item.pk %}" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">編集</a>
-            <a href="{% url 'delete' item.pk %}" class="btn btn-danger" tabindex="-1" role="button" aria-disabled="true">削除</a>
+            <a href="{% url 'todoapp:detail' item.pk %}" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">詳細</a>
+            <a href="{% url 'todoapp:edit' item.pk %}" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">編集</a>
+            <a href="{% url 'todoapp:delete' item.pk %}" class="btn btn-danger" tabindex="-1" role="button" aria-disabled="true">削除</a>
         </div>
     </div>
     {% endfor %}

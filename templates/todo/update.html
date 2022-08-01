@@ -25,7 +25,7 @@ Todoを編集する
             {% render_field form.duedate class="form-control" type="date" %}
         </div>
         <input type="submit" value="更新" class="btn btn-primary">
-        <a href="{% url '' %}" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">キャンセル</a>
+        <a href="{% url 'todoapp:' %}" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">キャンセル</a>
     </form>
 </div>
 {% endblock content %}
