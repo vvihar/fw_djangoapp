@@ -12,3 +12,6 @@ class BoardModel(models.Model):
     read = models.IntegerField(default=0)  # 既読
     readtext = models.TextField(default='')  # 既読の人
     # null = True, blank = True で空欄可能
+
+    def __str__(self):
+        return self.title
