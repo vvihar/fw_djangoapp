@@ -2,7 +2,7 @@ from sqlite3 import IntegrityError
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import BoardModel
 from django.contrib.auth.decorators import login_required
 
@@ -49,3 +49,8 @@ def listfunc(request):
     return render(request, 'board/list.html', {'object_list': object_list})
 
 # Login 状態の確認は、HTML の if user.is_authenticated でも可能
+
+
+def logoutfunc(request):
+    logout(request)
+    return redirect('login')
