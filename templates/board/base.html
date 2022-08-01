@@ -13,6 +13,9 @@
             crossorigin="anonymous"
         />
 
+        {% block customcss %}
+        {% endblock customcss %}
+
         <title>FairWind Portal</title>
     </head>
     <body>
@@ -32,7 +35,7 @@
                         <a href="/todo" class="nav-link text-white px-2">To Do</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-white px-2">Pricing</a>
+                        <a href="/board" class="nav-link text-white px-2">Board</a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link text-white px-2">FAQs</a>

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login
 from .models import BoardModel
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -31,17 +32,20 @@ def loginfunc(request):
             if user is not None:  # user がいる場合
                 login(request, user)
                 # login 成功
-                return render(request, 'board/login.html', {'context': 'logged in'})
+                return redirect('list')  # list ページにリダイレクト
             else:
                 # login 失敗
-                return render(request, 'board/login.html', {'context': 'not logged in'})
+                return render(request, 'board/login.html', {})
     # ただのアクセス
-    return render(request, 'board/login.html', {'context': 'get method'})
+    return render(request, 'board/login.html', {})
 
 # render: 受け取った情報を組み合わせてページを表示
 # redirect: 別のビューを返す
 
 
+@login_required  # decorator: 関数が呼び出される前に処理される内容
 def listfunc(request):
     object_list = BoardModel.objects.all()
     return render(request, 'board/list.html', {'object_list': object_list})
+
+# Login 状態の確認は、HTML の if user.is_authenticated でも可能

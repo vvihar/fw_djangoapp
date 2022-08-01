@@ -5,7 +5,7 @@ FairWind Chat
 {% endblock header %}
 
 {% block content %}
-
+{% if user.is_authenticated %}
 <div class="container">
     {% for item in object_list %}
     <div class="alert alert-success" role="alert">
@@ -16,5 +16,8 @@ FairWind Chat
     </div>
     {% endfor %}
 </div>
+{% else %}
+Please Login
+{% endif %}
 
 {% endblock content %}

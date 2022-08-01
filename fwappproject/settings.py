@@ -122,6 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # 開発環境ではこの設定を必要とする
+STATICFILES_DIRS = [str(BASE_DIR / 'static')]  # 複数のappごとに静的ファイルを管理する
+# str 型にする
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -129,5 +132,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = BASE_DIR / 'media'  # 画像を保存するフォルダ（開発環境のみ）
-
 MEDIA_URL = 'media/'  # 画像へアクセスする際のURL（開発環境のみ？）
+
+# 認証機能関係
+LOGIN_URL = 'login'  # urls.py の name を書く
