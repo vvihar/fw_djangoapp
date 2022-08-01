@@ -7,6 +7,7 @@ FairWind Chat
 {% block content %}
 {% if user.is_authenticated %}
 <div class="container">
+    <a href="{% url 'boardapp:create' %}" class="btn btn-secondary mb-2" tabindex="-1" role="button" aria-disabled="true">新規投稿</a>
     {% for item in object_list %}
     <div class="alert alert-success" role="alert">
         <p>タイトル：<a href="{% url 'boardapp:detail' item.pk %}">{{ item.title }}</a></p>
