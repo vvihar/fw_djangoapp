@@ -35,7 +35,7 @@ def loginfunc(request):
             if user is not None:  # user がいる場合
                 login(request, user)
                 # login 成功
-                return redirect('list')  # list ページにリダイレクト
+                return redirect('boardapp:list')  # list ページにリダイレクト
             else:
                 # login 失敗
                 return render(request, 'board/login.html', {})
@@ -56,7 +56,7 @@ def listfunc(request):
 
 def logoutfunc(request):
     logout(request)
-    return redirect('login')
+    return redirect('boardapp:login')
 
 
 def detailfunc(request, pk):
@@ -69,7 +69,7 @@ def goodfunc(request, pk):
     object = BoardModel.objects.get(pk=pk)
     object.good += 1
     object.save()
-    return redirect('list')
+    return redirect('boardapp:list')
 
 
 def readfunc(request, pk):
@@ -81,11 +81,11 @@ def readfunc(request, pk):
         object.read += 1
         object.readtext += ' ' + username
         object.save()
-    return redirect('list')
+    return redirect('boardapp:list')
 
 
 class BoardCreate(CreateView):
     template_name = 'board/create.html'
     model = BoardModel
     fields = ['title', 'content', 'author', 'sns_image']
-    success_url = reverse_lazy('list')
+    success_url = reverse_lazy('boardapp:list')

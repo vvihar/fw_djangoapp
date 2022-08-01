@@ -1,8 +1,10 @@
 from django.urls import path, include
 from .views import signupfunc, loginfunc, listfunc, logoutfunc, detailfunc, goodfunc, readfunc, BoardCreate
 
+app_name = 'boardapp'
+
 urlpatterns = [
-    path('', listfunc, name="app"),
+    path('', listfunc, name=""),
     path('signup/', signupfunc, name="signup"),
     path('login/', loginfunc, name="login"),
     path('list/', listfunc, name="list"),
