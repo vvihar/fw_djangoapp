@@ -135,4 +135,4 @@ MEDIA_ROOT = BASE_DIR / 'media'  # 画像を保存するフォルダ（開発環
 MEDIA_URL = 'media/'  # 画像へアクセスする際のURL（開発環境のみ？）
 
 # 認証機能関係
-LOGIN_URL = 'login'  # urls.py の name を書く
+LOGIN_URL = 'boardapp:login'  # urls.py の name を書く
