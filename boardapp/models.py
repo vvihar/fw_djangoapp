@@ -11,3 +11,4 @@ class BoardModel(models.Model):
     good = models.IntegerField(default=0)  # いいね
     read = models.IntegerField(default=0)  # 既読
     readtext = models.TextField(default='')  # 既読の人
+    # null = True, blank = True で空欄可能

@@ -1,3 +1,4 @@
+from audioop import reverse
 from sqlite3 import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
@@ -5,6 +6,8 @@ from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from .models import BoardModel
 from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -20,7 +23,7 @@ def signupfunc(request):
         except IntegrityError:  # 重複したユーザー名の場合
             return render(request, 'board/signup.html', {'error': 'このユーザー名は既に使用されています'})
     # request, テンプレのファイル, モデルのデータを引数にとる
-    return redirect('login')
+    return render(request, 'board/signup.html', {})
 
 
 def loginfunc(request):
@@ -79,3 +82,10 @@ def readfunc(request, pk):
         object.readtext += ' ' + username
         object.save()
     return redirect('list')
+
+
+class BoardCreate(CreateView):
+    template_name = 'board/create.html'
+    model = BoardModel
+    fields = ['title', 'content', 'author', 'sns_image']
+    success_url = reverse_lazy('list')

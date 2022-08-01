@@ -25,7 +25,7 @@ urlpatterns = [
     # helloWorldViewを呼び出す (class based view)
     path('helloworld/', helloWorldView.as_view()),
     path('app/', include('helloworldapp.urls')),
-    path('todo/', include('todo.urls')),
-    path('board/', include('boardapp.urls')),
+    path('todo/', include('todo.urls'), name="todoapp"),
+    path('board/', include('boardapp.urls'), name="boardapp"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
