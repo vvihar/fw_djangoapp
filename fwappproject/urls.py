@@ -27,5 +27,6 @@ urlpatterns = [
     path('app/', include('helloworldapp.urls')),
     path('todo/', include('todo.urls'), name="todoapp"),
     path('board/', include('boardapp.urls'), name="boardapp"),
+    path('accounts/', include('accounts.urls'), name="accounts"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

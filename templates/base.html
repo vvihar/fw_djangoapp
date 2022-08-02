@@ -49,11 +49,20 @@
                 <ul class="nav">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a href="{% url 'boardapp:logout' %}" class="nav-link text-white px-2">Logout</a>
+                        <div class="nav-link text-white px-2">
+                            {% if user.last_name and user.first_name %}
+                                {{ user.last_name }} {{ user.first_name }} さん
+                            {% else %}
+                                {{ user.username }} さん
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'accounts:logout' %}" class="nav-link text-white px-2">Logout</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a href="{% url 'boardapp:login' %}" class="nav-link text-white px-2">Login</a>
+                        <a href="{% url 'accounts:login' %}" class="nav-link text-white px-2">Login</a>
                     </li>
                     {% endif %}
                 </ul>

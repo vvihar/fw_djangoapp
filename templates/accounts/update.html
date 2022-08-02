@@ -1,0 +1,107 @@
+{% extends "accounts/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'login.css' %}" />
+{% endblock customcss %}
+
+{% block header %}
+FairWind Account Update
+{% endblock header%}
+
+{% block content %}
+<div class="container">
+    {% if info %}
+        <div class="alert alert-primary mb-4" role="alert">
+            {{ info }}
+        </div>
+    {% endif %}
+    <form class="row g-3" method="POST"> {% csrf_token %}
+        <div class="form-floating mb-3">
+            {% if user_form.username.errors %}
+                {% render_field user_form.username class="form-control is-invalid" id="inputUsername" name="username" placeholder="ユーザー名" required="required" %}
+                <label for="inputUsername">ユーザー名</label>
+                {% for error in user_form.username.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% render_field user_form.username class="form-control" id="inputUsername" name="username" placeholder="ユーザー名" required="required" %}
+                <label for="inputUsername">ユーザー名</label>
+            {% endif %}
+        </div>
+        <div class="col-md-5">
+            <div class="form-floating mb-3">
+                {% render_field user_form.last_name class="form-control" id="inputLastName" name="Lastname" placeholder="姓" required="required" %}
+                <label for="inputLastName">姓</label>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-floating mb-3">
+                {% render_field user_form.first_name class="form-control" id="inputFirstName" name="Firstname" placeholder="名" required="required" %}
+                <label for="inputFirstName">名</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-floating mb-3">
+                {% render_field profile_form.sex class="form-control" id="inputSex" name="Sex" placeholder="性別" %}
+                <label for="inputSex">性別</label>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            {% render_field user_form.email class="form-control" id="inputEmail" name="email" placeholder="メールアドレス" required="required" aria-describedby="emailHelp" %}
+            <label for="inputEmail">メールアドレス</label>
+            <div id="emailHelp" class="form-text">FairWindのメールアドレス</div>
+        </div>
+        <!--メールアドレス-->
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {% render_field profile_form.course class="form-select" id="selectCourse" name="course" aria-label="Floating label select example" aria-describedby="courseHelp"%}
+                <label for="selectCourse">科類</label>
+                <div id="courseHelp" class="form-text">後期課程所属の場合は出身科類</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {% render_field profile_form.enrolled_year class="form-select" id="selectEnrolledYear" name="enrolled_year" aria-label="Floating label select example" %}
+                <label for="selectEnrolledYear">入学年度</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {% render_field profile_form.grade class="form-select" id="selectGrade" name="grade" aria-label="Floating label select example" %}
+                <label for="selectGrade">期</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {% render_field profile_form.faculty class="form-select" id="selectFaculty" name="faculty" aria-label="Floating label select example" %}
+                <label for="selectFaculty">学部</label>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-floating mb-3">
+                {% render_field profile_form.department class="form-control" id="inputDepartment" name="department" placeholder="学科" %}
+                <label for="inputDepartment">学科</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                {% render_field profile_form.group class="form-select" id="selectGroup" name="group" aria-label="Floating label select example" %}
+                <label for="selectGroup">班</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                {% render_field profile_form.division class="form-select" id="selectDivision" name="division" aria-label="Floating label select example" %}
+                <label for="selectDivision">担当</label>
+            </div>
+        </div>
+
+        <div class="col-12 mb-3">
+            <button type="submit" class="btn btn-primary">アップデート</button>
+        </div>
+    </form>
+</div>
+{% endblock content%}
