@@ -1,16 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .forms import ProfileForm, UserCreateForm, UpdateProfileForm, UpdateUserForm
-from .models import Profile
-from django.contrib.auth.models import User
-from django.views.generic import UpdateView
-from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.contrib.admin.views.decorators import staff_member_required
+from datetime import datetime
 
 # Create your views here.
 
-
+@staff_member_required(login_url='accounts:login')
 def signupfunc(request):
     user_form = UserCreateForm(request.POST or None)
     profile_form = ProfileForm(request.POST or None)
@@ -51,7 +47,6 @@ def profileupdatefunc(request):
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
-        messages.error(request, "フォームが不正です。")
     context = {
         "user_form": user_form,
         "profile_form": profile_form,
@@ -60,4 +55,15 @@ def profileupdatefunc(request):
     return render(request, "accounts/update.html", context)
 
 def indexfunc(request):
-    return render(request, "accounts/index.html", {})
+    alerts = []
+    senior_division_year = datetime.today().year - 2
+    if not request.user.profile.faculty and request.user.profile.enrolled_year <= senior_division_year:
+        alerts.append("後期課程の進学先の情報を登録してください。")
+    if not request.user.profile.group:
+        alerts.append("所属している班の情報を登録してください。")
+    if not request.user.profile.division:
+        alerts.append("所属している担当の情報を登録してください。")
+    context = {
+        "alerts": alerts
+    }
+    return render(request, "accounts/index.html", context)
