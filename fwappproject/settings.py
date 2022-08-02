@@ -137,5 +137,5 @@ MEDIA_URL = 'media/'  # 画像へアクセスする際のURL（開発環境の�
 
 # 認証機能関係
 LOGIN_URL = 'accounts:login'  # urls.py の name を書く
-LOGIN_REDIRECT_URL = 'boardapp:list'  # ログイン後に遷移するURL
-LOGOUT_REDIRECT_URL = 'todoapp:'  # ログアウト後に遷移するURL
+LOGIN_REDIRECT_URL = 'accounts:'  # ログイン後に遷移するURL
+LOGOUT_REDIRECT_URL = 'accounts:login'  # ログアウト後に遷移するURL

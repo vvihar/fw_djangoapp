@@ -58,3 +58,6 @@ def profileupdatefunc(request):
     }
 
     return render(request, "accounts/update.html", context)
+
+def indexfunc(request):
+    return render(request, "accounts/index.html", {})
