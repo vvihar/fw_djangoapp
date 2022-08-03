@@ -29,20 +29,20 @@ FairWind Account
         </div>
         <div class="col-md-5">
             <div class="form-floating mb-3">
-                {% render_field user_form.last_name class="form-control" id="inputLastName" name="Lastname" placeholder="姓" required="required" %}
+                {% render_field user_form.last_name class="form-control" id="inputLastName" name="lastname" placeholder="姓" required="required" %}
                 <label for="inputLastName">姓</label>
             </div>
         </div>
         <div class="col-md-5">
             <div class="form-floating mb-3">
-                {% render_field user_form.first_name class="form-control" id="inputFirstName" name="Firstname" placeholder="名" required="required" %}
+                {% render_field user_form.first_name class="form-control" id="inputFirstName" name="firstname" placeholder="名" required="required" %}
                 <label for="inputFirstName">名</label>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-floating mb-3">
-                {% render_field profile_form.sex class="form-control" id="inputSex" name="Sex" placeholder="性別" %}
-                <label for="inputSex">性別</label>
+                {% render_field profile_form.sex class="form-select" id="selectSex" name="sex" aria-label="Floating label select example" %}
+                <label for="selectSex">性別</label>
             </div>
         </div>
         <div class="form-floating mb-3">
