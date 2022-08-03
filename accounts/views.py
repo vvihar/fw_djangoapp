@@ -80,7 +80,6 @@ class GroupCreate(CreateView):
     template_name = 'accounts/group/create.html'
     model = Group
     fields = ('name',)
-    # request -> responseの流れの逆 listはurls.pyで指定
     success_url = reverse_lazy('accounts:group')
 
 class GroupDelete(DeleteView):
