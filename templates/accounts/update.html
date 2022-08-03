@@ -16,34 +16,11 @@ FairWind Account
             {{ info }}
         </div>
     {% endif %}
+    <p>
+        ユーザー名や姓名の変更を希望する場合は、プラットフォーム担当にお知らせください。
+    </p>
     <form class="row g-3" method="POST"> {% csrf_token %}
-        <div class="form-floating mb-3">
-            {% if user_form.username.errors %}
-                {% render_field user_form.username class="form-control is-invalid" id="inputUsername" name="username" placeholder="ユーザー名" required="required" %}
-                <label for="inputUsername">ユーザー名</label>
-                {% for error in user_form.username.errors %}
-                    <div class="invalid-feedback">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            {% else %}
-                {% render_field user_form.username class="form-control" id="inputUsername" name="username" placeholder="ユーザー名" required="required" %}
-                <label for="inputUsername">ユーザー名</label>
-            {% endif %}
-        </div>
-        <div class="col-md-5">
-            <div class="form-floating mb-3">
-                {% render_field user_form.last_name class="form-control" id="inputLastName" name="lastname" placeholder="姓" required="required" %}
-                <label for="inputLastName">姓</label>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="form-floating mb-3">
-                {% render_field user_form.first_name class="form-control" id="inputFirstName" name="firstname" placeholder="名" required="required" %}
-                <label for="inputFirstName">名</label>
-            </div>
-        </div>
-        <div class="col-md-2">
+        <div class="col-md-12">
             <div class="form-floating mb-3">
                 {% render_field profile_form.sex class="form-select" id="selectSex" name="sex" aria-label="Floating label select example" %}
                 <label for="selectSex">性別</label>
