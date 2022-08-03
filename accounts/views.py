@@ -54,6 +54,7 @@ def profileupdatefunc(request):
 
     return render(request, "accounts/update.html", context)
 
+@login_required
 def indexfunc(request):
     alerts = []
     senior_division_year = datetime.today().year - 2

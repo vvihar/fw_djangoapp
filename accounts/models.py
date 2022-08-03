@@ -117,21 +117,23 @@ class Profile(models.Model):
     )
 
     group = models.ForeignKey(
-        Group,  # Group Class を継承
+        Group,  # Group Class と一対多の紐付け
         verbose_name=("班"),
         on_delete=models.SET_NULL,  # 班が削除されたら、メンバーの班欄を空白にする
         default=None,
         null=True,
-        blank=True
+        blank=True,
+        related_name="group_members"
     )
 
     division = models.ForeignKey(
-        Division,  # Division Class を継承
+        Division,  # Division Class と一対多の紐付け
         verbose_name=("担当"),
         on_delete=models.SET_NULL,  # 担当が削除されたら、メンバーの担当欄を空白にする
         default=None,
         null=True,
-        blank=True
+        blank=True,
+        related_name="division_members"
     )
 
     def __str__(self):
