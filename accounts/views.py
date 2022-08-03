@@ -3,6 +3,9 @@ from .forms import ProfileForm, UserCreateForm, UpdateProfileForm, UpdateUserFor
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime
+from .models import Group, Division
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -68,3 +71,25 @@ def indexfunc(request):
         "alerts": alerts
     }
     return render(request, "accounts/index.html", context)
+
+class GroupList(ListView):
+    template_name = 'accounts/group/list.html'
+    model = Group
+
+class GroupCreate(CreateView):
+    template_name = 'accounts/group/create.html'
+    model = Group
+    fields = ('name',)
+    # request -> responseの流れの逆 listはurls.pyで指定
+    success_url = reverse_lazy('accounts:group')
+
+class GroupDelete(DeleteView):
+    template_name = 'accounts/group/delete.html'
+    model = Group
+    success_url = reverse_lazy('accounts:group')  # 成功時の遷移先
+
+class GroupUpdate(UpdateView):
+    template_name = 'accounts/group/create.html'
+    model = Group
+    fields = ('name',)
+    success_url = reverse_lazy('accounts:group')

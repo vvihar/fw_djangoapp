@@ -6,14 +6,14 @@ from datetime import datetime
 
 
 class Group(models.Model):
-    group_name = models.CharField(
+    name = models.CharField(
         "班名",
         max_length=10,
         unique=True,
     )
 
     def __str__(self):
-        return self.group_name
+        return self.name
 
     class Meta:
         verbose_name = '班'
@@ -21,14 +21,14 @@ class Group(models.Model):
 
 
 class Division(models.Model):
-    division = models.CharField(
+    name = models.CharField(
         "担当名",
         max_length=30,
         unique=True,
     )
 
     def __str__(self):
-        return self.division
+        return self.name
 
     class Meta:
         verbose_name = '担当'
