@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import signupfunc, profileupdatefunc, indexfunc, GroupList, GroupCreate, GroupDelete, GroupUpdate
+from .views import signupfunc, profileupdatefunc, indexfunc, GroupList, GroupCreate, GroupDelete, GroupUpdate, DivisionList, DivisionCreate, DivisionDelete, DivisionUpdate
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import staff_member_required
@@ -20,4 +20,9 @@ urlpatterns = [
     path('group/create/', staff_member_required(GroupCreate.as_view(), login_url='accounts:login'), name="group_create"),
     path('group/<int:pk>/delete/', staff_member_required(GroupDelete.as_view(), login_url='accounts:login'), name="group_delete"),
     path('group/<int:pk>/update/', staff_member_required(GroupUpdate.as_view(), login_url='accounts:login'), name="group_update"),
+
+    path('division/', staff_member_required(DivisionList.as_view(), login_url='accounts:login'), name="division"),
+    path('division/create/', staff_member_required(DivisionCreate.as_view(), login_url='accounts:login'), name="division_create"),
+    path('division/<int:pk>/delete/', staff_member_required(DivisionDelete.as_view(), login_url='accounts:login'), name="division_delete"),
+    path('division/<int:pk>/update/', staff_member_required(DivisionUpdate.as_view(), login_url='accounts:login'), name="division_update"),
 ]

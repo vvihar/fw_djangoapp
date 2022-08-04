@@ -15,9 +15,9 @@ def signupfunc(request):
     profile_form = ProfileForm(request.POST or None)
     if request.method == "POST" and user_form.is_valid() and profile_form.is_valid():
 
-        # Userモデルの処理。ログインできるようis_activeをTrueにし保存
         user = user_form.save(commit=False)
         user.is_active = True
+        user.save()
 
         # Profileモデルの処理。↑のUserモデルと紐づける
         profile = profile_form.save(commit=False)
@@ -98,3 +98,24 @@ class GroupUpdate(UpdateView):
     model = Group
     fields = ('name',)
     success_url = reverse_lazy('accounts:group')
+
+class DivisionList(ListView):
+    template_name = 'accounts/division/list.html'
+    model = Division
+
+class DivisionCreate(CreateView):
+    template_name = 'accounts/division/create.html'
+    model = Division
+    fields = ('name',)
+    success_url = reverse_lazy('accounts:division')
+
+class DivisionDelete(DeleteView):
+    template_name = 'accounts/division/delete.html'
+    model = Division
+    success_url = reverse_lazy('accounts:division')  # 成功時の遷移先
+
+class DivisionUpdate(UpdateView):
+    template_name = 'accounts/division/create.html'
+    model = Division
+    fields = ('name',)
+    success_url = reverse_lazy('accounts:division')

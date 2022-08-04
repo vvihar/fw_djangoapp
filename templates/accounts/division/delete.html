@@ -16,7 +16,7 @@ FairWind Account
     </div>
     <form action="" method="POST">{% csrf_token %}
         <input type="submit" value="削除" class="btn btn-danger">
-        <a href="{% url 'accounts:group' %}" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">キャンセル</a>
+        <a href="{% url 'accounts:division' %}" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">キャンセル</a>
     </form>
 </div>
 {% endblock content%}
