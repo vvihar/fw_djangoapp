@@ -16,8 +16,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def signupfunc(request):
     # print(request.POST)
     if request.method == 'POST':
-        username = request.POST['username']  # name属性を使用
-        password = request.POST['password']
+        username = request.POST['username']  # username 属性を使用
+        password = request.POST['password']  # password 属性を使用
         try:
             user = User.objects.create_user(username, '', password)
             return render(request, 'board/signup.html', {})
