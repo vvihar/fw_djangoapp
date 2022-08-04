@@ -13,19 +13,21 @@ FairWind Account
 <div class="container">
     {{ context }}
     <form class="row g-3" method="POST"> {% csrf_token %}
-        <div class="form-floating mb-3">
-            {% if user_form.username.errors %}
-                {% render_field user_form.username class="form-control is-invalid" placeholder="ユーザー名" required="required" %}
-                <label for="inputUsername">ユーザー名</label>
-                {% for error in user_form.username.errors %}
-                    <div class="invalid-feedback">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            {% else %}
-                {% render_field user_form.username class="form-control" placeholder="ユーザー名" required="required" %}
-                <label for="id_username">ユーザー名</label>
-            {% endif %}
+        <div class="col-md-12">
+            <div class="form-floating mb-3">
+                {% if user_form.username.errors %}
+                    {% render_field user_form.username class="form-control is-invalid" placeholder="ユーザー名" required="required" %}
+                    <label for="inputUsername">ユーザー名</label>
+                    {% for error in user_form.username.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field user_form.username class="form-control" placeholder="ユーザー名" required="required" %}
+                    <label for="id_username">ユーザー名</label>
+                {% endif %}
+            </div>
         </div>
         <div class="col-md-5">
             <div class="form-floating mb-3">

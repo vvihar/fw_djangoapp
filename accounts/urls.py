@@ -19,10 +19,10 @@ urlpatterns = [
     path('group/', staff_member_required(GroupList.as_view(), login_url='accounts:login'), name="group"),
     path('group/new/', staff_member_required(GroupCreate.as_view(), login_url='accounts:login'), name="group_create"),
     path('group/<int:pk>/delete/', staff_member_required(GroupDelete.as_view(), login_url='accounts:login'), name="group_delete"),
-    path('group/<int:pk>/update/', staff_member_required(GroupUpdate.as_view(), login_url='accounts:login'), name="group_update"),
+    path('group/<int:pk>/edit/', staff_member_required(GroupUpdate.as_view(), login_url='accounts:login'), name="group_update"),
 
     path('division/', staff_member_required(DivisionList.as_view(), login_url='accounts:login'), name="division"),
     path('division/new/', staff_member_required(DivisionCreate.as_view(), login_url='accounts:login'), name="division_create"),
     path('division/<int:pk>/delete/', staff_member_required(DivisionDelete.as_view(), login_url='accounts:login'), name="division_delete"),
-    path('division/<int:pk>/update/', staff_member_required(DivisionUpdate.as_view(), login_url='accounts:login'), name="division_update"),
+    path('division/<int:pk>/edit/', staff_member_required(DivisionUpdate.as_view(), login_url='accounts:login'), name="division_update"),
 ]
