@@ -104,12 +104,14 @@ class Profile(models.Model):
     )
 
     max_grade = datetime.today().year - 2009  # 最も若い期
-    GRADE_CHOICES = ((str(i) + "期", str(i) + "期") for i in range(0, max_grade + 1))
-    grade = models.CharField(
+    GRADE_CHOICES = (
+        (i, str(i) + "期")
+        for i in range(0, max_grade + 1)
+    )
+    grade = models.IntegerField(
         verbose_name="期",
-        max_length=3,
         choices=GRADE_CHOICES,
-        default=str(max_grade) + "期",
+        default=max_grade,
     )
 
     SEX_CHOICES = (

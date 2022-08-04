@@ -34,3 +34,8 @@ class UpdateProfileForm(forms.ModelForm):
         fields = (
             "email", "course", "enrolled_year", "grade", "sex", "faculty", "department", "group", "division"
         )
+
+
+class CSVUploadForm(forms.Form):
+    file = forms.FileField(
+        label='CSVファイル', help_text='CSV形式のファイルをアップロードしてください。')

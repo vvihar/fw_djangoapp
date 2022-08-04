@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import signup, profile_update, index, GroupList, GroupCreate, GroupDelete, GroupUpdate, DivisionList, DivisionCreate, DivisionDelete, DivisionUpdate
+from .views import signup, profile_update, index, GroupList, GroupCreate, GroupDelete, GroupUpdate, DivisionList, DivisionCreate, DivisionDelete, DivisionUpdate, UserList, UserImport
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import staff_member_required
@@ -25,4 +25,7 @@ urlpatterns = [
     path('division/new/', staff_member_required(DivisionCreate.as_view(), login_url='accounts:login'), name="division_create"),
     path('division/<int:pk>/delete/', staff_member_required(DivisionDelete.as_view(), login_url='accounts:login'), name="division_delete"),
     path('division/<int:pk>/edit/', staff_member_required(DivisionUpdate.as_view(), login_url='accounts:login'), name="division_update"),
+
+    path('users/', UserList.as_view(), name="users"),
+    path('users/import/', staff_member_required(UserImport.as_view(), login_url='accounts:login'), name="users_import"),
 ]

@@ -1,11 +1,18 @@
+import csv
+from multiprocessing import context
+from pyexpat.errors import messages
+from django.forms import ValidationError
+from django.views import generic
+import io
 from django.shortcuts import render, redirect
-from .forms import ProfileForm, UserCreateForm, UpdateProfileForm, UpdateUserForm
+from .forms import ProfileForm, UserCreateForm, UpdateProfileForm, UpdateUserForm, CSVUploadForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime
-from .models import Group, Division
+from .models import Group, Division, Profile
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -40,7 +47,8 @@ def signup(request):
 def profile_update(request):
     if request.method == "POST":
         user_form = UpdateUserForm(request.POST or None, instance=request.user)
-        profile_form = UpdateProfileForm(request.POST or None, instance=request.user.profile)
+        profile_form = UpdateProfileForm(
+            request.POST or None, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
             profile = profile_form.save(commit=False)
@@ -128,3 +136,78 @@ class DivisionUpdate(UpdateView):
     model = Division
     fields = ('name',)
     success_url = reverse_lazy('accounts:division')
+
+
+class UserList(ListView):
+    template_name = 'accounts/user/list.html'
+    model = User
+
+
+class UserImport(generic.FormView):
+    template_name = 'accounts/user/import.html'
+    form_class = CSVUploadForm
+
+    def form_valid(self, form):
+        errors = []
+        # csv.readerに渡すため、TextIOWrapperでテキストモードなファイルに変換
+        csvfile = io.TextIOWrapper(form.cleaned_data['file'], encoding='utf-8')
+        reader = csv.reader(csvfile)
+        user_pk = User.objects.last().pk
+        username_list = list(User.objects.values_list('username', flat=True))
+        # 1行ずつ取り出し、作成していく
+        for row in reader:
+            for i in range(len(row)):
+                row[i] = row[i].strip()
+            user_data = {
+                "username": row[0],
+                "last_name": row[1], # 姓
+                "first_name": row[2], # 名
+                "email": row[3],
+                "course": row[4],
+                "enrolled_year": row[5],
+                "grade": row[6],
+                "sex": row[7],
+                "password": row[8],
+            }
+            if user_data["username"] == '':
+                errors.append("ユーザー名が空白の行が見つかりました。")
+                continue
+            error_count = 0
+            for items in user_data.values():
+                if items == '':
+                    if not (user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。") in errors:
+                        errors.append(user_data["username"] + " のデータに空白の項目が見つかりました。")
+                    error_count += 1
+            if error_count > 0:
+                continue
+            if user_data["username"] in username_list:
+                errors.append(user_data["username"] + " は、ユーザー名が他のユーザーと重複しているため、読み込まれませんでした。")
+                continue
+            user_pk += 1
+            user = User.objects.create(
+                id=user_pk,
+                username=user_data["username"],
+                email=user_data["email"],
+                first_name=user_data["first_name"],
+                last_name=user_data["last_name"],
+                is_active=True,
+                is_staff=False,
+                is_superuser=False,
+            )
+            user.set_password(user_data["password"])
+            user.save()
+            profile = Profile.objects.create(
+                user=user,
+                email=user_data["email"],
+                course=user_data["course"],
+                enrolled_year=user_data["enrolled_year"],
+                grade=user_data["grade"],
+                sex=user_data["sex"],
+            )
+            profile.save()
+        # return super().form_valid(form)
+        context = {
+            "errors": errors,
+            "form": form
+        }
+        return render(self.request, 'accounts/user/import.html', context)

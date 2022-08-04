@@ -1,0 +1,40 @@
+{% extends "accounts/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block header %}
+FairWind Account
+{% endblock header%}
+
+{% block content %}
+<div class="container">
+    <form action="" method="POST" class="row g-3" enctype="multipart/form-data"> {% csrf_token %}
+        {% for error in errors %}
+            <div class="alert alert-danger mb-0">{{ error }}</div>
+        {% endfor %}
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="formFile" class="form-label">CSVファイルを選択してください。</label>
+                {% render_field form.file class="form-control" accept=".csv" %}
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <button type="submit" class="btn btn-primary">登録</button>
+        </div>
+    </form>
+    <div class="card mb-3">
+        <div class="card-header">
+            CSVファイルの形式
+        </div>
+        <div class="card-body">
+            CSVファイルは、次の形式で作成してください。
+            <pre><code>
+user-name, 姓, 名, lastname.firstname.fw@gmail.com, 科類（理科一類など）, 入学年度（YYYY）, 期（nn）, 男／女／未回答, password</code></pre>
+        </div>
+    </div>
+
+</div>
+{% endblock content%}
