@@ -27,7 +27,7 @@ def signupfunc(request):
         user.email = profile.email
         user.save()
 
-        return redirect("boardapp:")
+        return redirect("accounts:")
 
     context = {
         "user_form": user_form,
