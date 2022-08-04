@@ -30,5 +30,5 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = (
-            "course", "enrolled_year", "grade", "sex", "faculty", "department", "group", "division"
+            "email", "course", "enrolled_year", "grade", "sex", "faculty", "department", "group", "division"
         )

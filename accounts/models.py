@@ -1,3 +1,4 @@
+import email
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -42,6 +43,13 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         unique=True,
         related_name="profile",
+    )
+
+    email = models.EmailField(
+        verbose_name="メールアドレス",
+        max_length=255,
+        blank=True,
+        null=True,
     )
 
     COURSE_CHOICES = (

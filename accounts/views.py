@@ -18,12 +18,15 @@ def signupfunc(request):
         # Userモデルの処理。ログインできるようis_activeをTrueにし保存
         user = user_form.save(commit=False)
         user.is_active = True
-        user.save()
 
         # Profileモデルの処理。↑のUserモデルと紐づける
         profile = profile_form.save(commit=False)
         profile.user = user
         profile.save()
+
+        user.email = profile.email
+        user.save()
+
         return redirect("boardapp:")
 
     context = {
@@ -39,8 +42,11 @@ def profileupdatefunc(request):
         user_form = UpdateUserForm(request.POST or None, instance=request.user)
         profile_form = UpdateProfileForm(request.POST or None, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
+            user = user_form.save(commit=False)
+            profile = profile_form.save(commit=False)
+            profile.save()
+            user.email = profile.email
+            user.save()
             context = {
                 "user_form": user_form,
                 "profile_form": profile_form,
