@@ -19,12 +19,12 @@ def signup(request):
         user.is_active = True
         user.save()
 
-        # Profileモデルの処理。↑のUserモデルと紐づける
+        # Profile モデルの処理。↑の User モデルと紐づける
         profile = profile_form.save(commit=False)
         profile.user = user
         profile.save()
 
-        user.email = profile.email
+        user.email = profile.email  # User モデルの email に Profile モデルの email をそのまま転写
         user.save()
 
         return redirect("accounts:")
