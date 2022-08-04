@@ -8,7 +8,7 @@ class UserCreateForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
-            "username", "last_name", "first_name",  "password1", "password2"
+            "username", "last_name", "first_name", "password1", "password2"
         )
 
 
@@ -19,12 +19,14 @@ class ProfileForm(forms.ModelForm):
             "email", "course", "enrolled_year", "grade", "sex",
         )
 
+
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
             "email",
         )
+
 
 class UpdateProfileForm(forms.ModelForm):
     class Meta:

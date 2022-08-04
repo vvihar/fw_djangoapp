@@ -7,14 +7,14 @@ from .models import Group, Division
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 
+
 # Create your views here.
 
 @staff_member_required(login_url='accounts:login')
-def signupfunc(request):
+def signup(request):
     user_form = UserCreateForm(request.POST or None)
     profile_form = ProfileForm(request.POST or None)
     if request.method == "POST" and user_form.is_valid() and profile_form.is_valid():
-
         user = user_form.save(commit=False)
         user.is_active = True
         user.save()
@@ -35,9 +35,9 @@ def signupfunc(request):
     }
     return render(request, 'accounts/signup.html', context)
 
+
 @login_required
-def profileupdatefunc(request):
-    info = ""
+def profile_update(request):
     if request.method == "POST":
         user_form = UpdateUserForm(request.POST or None, instance=request.user)
         profile_form = UpdateProfileForm(request.POST or None, instance=request.user.profile)
@@ -63,8 +63,9 @@ def profileupdatefunc(request):
 
     return render(request, "accounts/update.html", context)
 
+
 @login_required
-def indexfunc(request):
+def index(request):
     alerts = []
     senior_division_year = datetime.today().year - 2
     if not request.user.profile.faculty and request.user.profile.enrolled_year <= senior_division_year:
@@ -78,9 +79,11 @@ def indexfunc(request):
     }
     return render(request, "accounts/index.html", context)
 
+
 class GroupList(ListView):
     template_name = 'accounts/group/list.html'
     model = Group
+
 
 class GroupCreate(CreateView):
     template_name = 'accounts/group/create.html'
@@ -88,10 +91,12 @@ class GroupCreate(CreateView):
     fields = ('name',)
     success_url = reverse_lazy('accounts:group')
 
+
 class GroupDelete(DeleteView):
     template_name = 'accounts/group/delete.html'
     model = Group
-    success_url = reverse_lazy('accounts:group')  # 成功時の遷移先
+    success_url = reverse_lazy('accounts:group')
+
 
 class GroupUpdate(UpdateView):
     template_name = 'accounts/group/create.html'
@@ -99,9 +104,11 @@ class GroupUpdate(UpdateView):
     fields = ('name',)
     success_url = reverse_lazy('accounts:group')
 
+
 class DivisionList(ListView):
     template_name = 'accounts/division/list.html'
     model = Division
+
 
 class DivisionCreate(CreateView):
     template_name = 'accounts/division/create.html'
@@ -109,10 +116,12 @@ class DivisionCreate(CreateView):
     fields = ('name',)
     success_url = reverse_lazy('accounts:division')
 
+
 class DivisionDelete(DeleteView):
     template_name = 'accounts/division/delete.html'
     model = Division
-    success_url = reverse_lazy('accounts:division')  # 成功時の遷移先
+    success_url = reverse_lazy('accounts:division')
+
 
 class DivisionUpdate(UpdateView):
     template_name = 'accounts/division/create.html'

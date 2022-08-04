@@ -1,7 +1,7 @@
-import email
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+
 
 # Create your models here.
 
@@ -94,8 +94,8 @@ class Profile(models.Model):
     )
 
     ENROLLED_YEAR_CHOICES = (
-        (i, str(i)+"年度")
-        for i in range(2009, datetime.today().year+1)
+        (i, str(i) + "年度")
+        for i in range(2009, datetime.today().year + 1)
     )
     enrolled_year = models.IntegerField(
         verbose_name="入学年度",
@@ -104,12 +104,12 @@ class Profile(models.Model):
     )
 
     max_grade = datetime.today().year - 2009  # 最も若い期
-    GRADE_CHOICES = ((str(i)+"期", str(i)+"期") for i in range(0, max_grade+1))
+    GRADE_CHOICES = ((str(i) + "期", str(i) + "期") for i in range(0, max_grade + 1))
     grade = models.CharField(
         verbose_name="期",
         max_length=3,
         choices=GRADE_CHOICES,
-        default=str(max_grade)+"期",
+        default=str(max_grade) + "期",
     )
 
     SEX_CHOICES = (
@@ -126,7 +126,7 @@ class Profile(models.Model):
 
     group = models.ForeignKey(
         Group,  # Group Class と一対多の紐付け
-        verbose_name=("班"),
+        verbose_name="班",
         on_delete=models.SET_NULL,  # 班が削除されたら、メンバーの班欄を空白にする
         default=None,
         null=True,
@@ -136,7 +136,7 @@ class Profile(models.Model):
 
     division = models.ForeignKey(
         Division,  # Division Class と一対多の紐付け
-        verbose_name=("担当"),
+        verbose_name="担当",
         on_delete=models.SET_NULL,  # 担当が削除されたら、メンバーの担当欄を空白にする
         default=None,
         null=True,
