@@ -20,33 +20,29 @@ FairWind Account
     <div class="row">
         <div class="col-sm-6">
             <a href="{% url 'accounts:update' %}" class="btn btn-outline-dark d-flex flex-column py-3 mb-3">
-                <div class="lead">ユーザー情報更新</div>
-                <div>学部や学科の登録もこちらから</div>
+                <div>ユーザー情報更新</div>
             </a>
         </div>
         <div class="col-sm-6">
             <a href="{% url 'accounts:password_change' %}" class="btn btn-outline-dark d-flex flex-column py-3 mb-3">
-                <div class="lead">パスワード変更</div>
-                <div>元のパスワードを忘れた場合はプラットフォーム担当まで</div>
+                <div>パスワード変更</div>
             </a>
         </div>
         {% if user.is_staff %}
-        <div class="col-sm-6">
+        <span class="h4">管理者</span>
+        <div class="col-sm-4">
             <a href="{% url 'accounts:signup' %}" class="btn btn-outline-dark d-flex flex-column py-3 mb-3">
-                <div class="lead">ユーザー新規登録</div>
-                <div>プラットフォーム担当のみアクセス可能</div>
+                <div>ユーザー新規登録</div>
             </a>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <a href="{% url 'accounts:group' %}" class="btn btn-outline-dark d-flex flex-column py-3 mb-3">
-                <div class="lead">班の編集</div>
-                <div>プラットフォーム担当のみアクセス可能</div>
+                <div>班の編集</div>
             </a>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <a href="{% url 'accounts:division' %}" class="btn btn-outline-dark d-flex flex-column py-3 mb-3">
-                <div class="lead">担当の編集</div>
-                <div>プラットフォーム担当のみアクセス可能</div>
+                <div>担当の編集</div>
             </a>
         </div>
         {% endif %}
