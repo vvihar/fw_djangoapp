@@ -11,12 +11,12 @@ FairWind Account
 
 {% block content %}
 <div class="container">
-    <form action="" method="POST" class="row g-3" enctype="multipart/form-data"> {% csrf_token %}
+    <form action="" method="POST" class="row g-3 mb-3" enctype="multipart/form-data"> {% csrf_token %}
         {% for error in errors %}
             <div class="alert alert-danger mb-0">{{ error }}</div>
         {% endfor %}
         <div class="col-md-12">
-            <div class="mb-3">
+            <div>
                 <label for="formFile" class="form-label">CSVファイルを選択してください。</label>
                 {% render_field form.file class="form-control" accept=".csv" %}
             </div>

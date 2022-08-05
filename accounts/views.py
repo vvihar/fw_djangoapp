@@ -173,7 +173,7 @@ class UserImport(generic.FormView):
             for items in user_data.values():
                 if items == '':
                     if not (user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。") in errors:
-                        errors.append(user_data["username"] + " のデータに空白の項目が見つかりました。")
+                        errors.append(user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。")
                     error_count += 1
             if error_count > 0:
                 continue
@@ -202,7 +202,6 @@ class UserImport(generic.FormView):
                 sex=user_data["sex"],
             )
             profile.save()
-        # return super().form_valid(form)
         context = {
             "errors": errors,
             "form": form
