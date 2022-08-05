@@ -157,8 +157,8 @@ class UserImport(generic.FormView):
                 row[i] = row[i].strip()
             user_data = {
                 "username": row[0],
-                "last_name": row[1], # 姓
-                "first_name": row[2], # 名
+                "last_name": row[1],  # 姓
+                "first_name": row[2],  # 名
                 "email": row[3],
                 "course": row[4],
                 "enrolled_year": row[5],
