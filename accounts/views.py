@@ -206,4 +206,7 @@ class UserImport(generic.FormView):
             "errors": errors,
             "form": form
         }
+        # TODO: FLASH MESSAGE 機能に移行
+        # TODO: インポートに成功した件数を表示
+        # TODO: 班をインポートできるようにする
         return render(self.request, 'accounts/user/import.html', context)
