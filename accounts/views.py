@@ -223,5 +223,5 @@ class UserImport(generic.FormView):
             "form": form,
             "imported_users": imported_users,
         }
-        # TODO: FLASH MESSAGE 機能に移行
+        # TODO: FLASH MESSAGE 機能に移行（https://docs.djangoproject.com/ja/3.2/ref/contrib/messages/）
         return render(self.request, 'accounts/user/import.html', context)
