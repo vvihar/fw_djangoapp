@@ -8,8 +8,8 @@
 {% endblock customcss %}
 
 {% block breadcrumbs %}
-    {{ block.super }}
-    {% breadcrumb "ログイン" "accounts:login" %}
+{% clear_breadcrumbs %}
+{% breadcrumb "ログイン" "accounts:login" %}
 {% endblock %}
 
 {% block content %}
