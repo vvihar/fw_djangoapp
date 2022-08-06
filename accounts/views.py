@@ -213,15 +213,9 @@ class UserImport(generic.FormView):
                 sex=user_data["sex"],
             )
             if user_data["group"] != '':
-                try:
-                    profile.group = Group.objects.get(name=user_data["group"])
-                except:
-                    pass
+                profile.group = Group.objects.get(name=user_data["group"])
             if user_data["division"] != '':
-                try:
-                    profile.division = Division.objects.get(name=user_data["division"])
-                except:
-                    pass
+                profile.division = Division.objects.get(name=user_data["division"])
             profile.save()
             imported_users += 1
         context = {
