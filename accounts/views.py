@@ -147,6 +147,7 @@ class UserImport(generic.FormView):
 
     def form_valid(self, form):
         errors = []
+        imported_users = 0
         # csv.readerに渡すため、TextIOWrapperでテキストモードなファイルに変換
         csvfile = io.TextIOWrapper(form.cleaned_data['file'], encoding='utf-8')
         reader = csv.reader(csvfile)
@@ -175,8 +176,9 @@ class UserImport(generic.FormView):
             error_count = 0
             for key, value in user_data.items():
                 if value == '' and key != "group" and key != "division":  # 担当、班は空白でも OK
-                    if not (user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。") in errors:
-                        errors.append(user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。")
+                    error_temp = user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。"
+                    if not error_temp in errors:
+                        errors.append(error_temp)
                     error_count += 1
             if error_count > 0:
                 continue
@@ -221,10 +223,11 @@ class UserImport(generic.FormView):
                 except:
                     pass
             profile.save()
+            imported_users += 1
         context = {
             "errors": errors,
-            "form": form
+            "form": form,
+            "imported_users": imported_users,
         }
         # TODO: FLASH MESSAGE 機能に移行
-        # TODO: インポートに成功した件数を表示
         return render(self.request, 'accounts/user/import.html', context)
