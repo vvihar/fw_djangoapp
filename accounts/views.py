@@ -1,3 +1,4 @@
+from __future__ import division
 import csv
 from django.views import generic
 import io
@@ -154,7 +155,7 @@ class UserImport(generic.FormView):
         # 1行ずつ取り出し、作成していく
         for row in reader:
             for i in range(len(row)):
-                row[i] = row[i].strip()
+                row[i] = row[i].strip().strip("'").strip('"')
             user_data = {
                 "username": row[0],
                 "last_name": row[1],  # 姓
@@ -164,14 +165,16 @@ class UserImport(generic.FormView):
                 "enrolled_year": row[5],
                 "grade": row[6],
                 "sex": row[7],
-                "password": row[8],
+                "group": row[8],  # 班
+                "division": row[9],  # 担当
+                "password": row[10],
             }
             if user_data["username"] == '':
                 errors.append("ユーザー名が空白の行が見つかりました。")
                 continue
             error_count = 0
-            for items in user_data.values():
-                if items == '':
+            for key, value in user_data.items():
+                if value == '' and key != "group" and key != "division":  # 担当、班は空白でも OK
                     if not (user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。") in errors:
                         errors.append(user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。")
                     error_count += 1
@@ -179,6 +182,12 @@ class UserImport(generic.FormView):
                 continue
             if user_data["username"] in username_list:
                 errors.append(user_data["username"] + " は、ユーザー名が他のユーザーと重複しているため、読み込まれませんでした。")
+                continue
+            if user_data["group"] != '' and not user_data["group"] in list(Group.objects.values_list('name', flat=True)):
+                errors.append(user_data["username"] + " は、班が存在しないため、読み込まれませんでした。")
+                continue
+            if user_data["division"] != '' and not user_data["division"] in list(Division.objects.values_list('name', flat=True)):
+                errors.append(user_data["username"] + " は、担当が存在しないため、読み込まれませんでした。")
                 continue
             user_pk += 1
             user = User.objects.create(
@@ -201,6 +210,16 @@ class UserImport(generic.FormView):
                 grade=user_data["grade"],
                 sex=user_data["sex"],
             )
+            if user_data["group"] != '':
+                try:
+                    profile.group = Group.objects.get(name=user_data["group"])
+                except:
+                    pass
+            if user_data["division"] != '':
+                try:
+                    profile.division = Division.objects.get(name=user_data["division"])
+                except:
+                    pass
             profile.save()
         context = {
             "errors": errors,
@@ -208,5 +227,4 @@ class UserImport(generic.FormView):
         }
         # TODO: FLASH MESSAGE 機能に移行
         # TODO: インポートに成功した件数を表示
-        # TODO: 班をインポートできるようにする
         return render(self.request, 'accounts/user/import.html', context)
