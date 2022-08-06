@@ -105,7 +105,7 @@ class GroupDelete(DeleteView):
 
 
 class GroupUpdate(UpdateView):
-    template_name = 'accounts/group/create.html'
+    template_name = 'accounts/group/update.html'
     model = Group
     fields = ('name',)
     success_url = reverse_lazy('accounts:group')
@@ -130,7 +130,7 @@ class DivisionDelete(DeleteView):
 
 
 class DivisionUpdate(UpdateView):
-    template_name = 'accounts/division/create.html'
+    template_name = 'accounts/division/update.html'
     model = Division
     fields = ('name',)
     success_url = reverse_lazy('accounts:division')

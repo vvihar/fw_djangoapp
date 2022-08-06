@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'django_bootstrap_breadcrumbs',
     'helloworldapp.apps.HelloworldappConfig',  # app名のあとに.apps.AppnameConfigを追加
     'todo.apps.TodoConfig',
     'boardapp.apps.BoardappConfig',

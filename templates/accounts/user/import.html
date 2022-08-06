@@ -1,13 +1,16 @@
 {% extends "accounts/base.html" %}
 {% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
 {% load static %}
 
 {% block customcss %}
 {% endblock customcss %}
 
-{% block header %}
-FairWind Account
-{% endblock header%}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "ユーザー一覧" "accounts:users" %}
+    {% breadcrumb "一括登録" "accounts:users_import" %}
+{% endblock %}
 
 {% block content %}
 <div class="container">

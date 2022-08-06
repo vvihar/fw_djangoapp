@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load django_bootstrap_breadcrumbs %}
 
 {% block customcss %}
 {% endblock customcss %}
@@ -7,13 +8,9 @@
     FairWind Portal
 {% endblock title %}
 
-{% block apptitle %}
-<a
-    href="{% url 'accounts:' %}"
-    class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none"
->
-    <span class="fs-4">{%block header%} {%endblock header%}</span>
-</a>
-{% endblock apptitle %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "アカウント" "accounts:" %}
+{% endblock %}
 
 {%block content%} {%endblock content%}

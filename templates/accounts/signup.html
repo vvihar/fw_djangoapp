@@ -1,13 +1,16 @@
 {% extends "accounts/base.html" %}
 {% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
 {% load static %}
+
 {% block customcss %}
 <link rel="stylesheet" href="{% static 'login.css' %}" />
 {% endblock customcss %}
 
-{% block header %}
-FairWind Account
-{% endblock header%}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "ユーザー新規登録" "accounts:signup" %}
+{% endblock %}
 
 {% block content %}
 <div class="container">

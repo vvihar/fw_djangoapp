@@ -1,13 +1,16 @@
 {% extends "accounts/base.html" %}
 {% load widget_tweaks %}
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
 
 {% block customcss %}
 {% endblock customcss %}
 
-{% block header %}
-FairWind Account
-{% endblock header%}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "班" "accounts:group" %}
+    {% breadcrumb object.name "accounts:group_delete" object.id %}
+{% endblock %}
 
 {% block content %}
 <div class="container">

@@ -1,12 +1,14 @@
 {% extends "accounts/base.html" %}
+{% load django_bootstrap_breadcrumbs %}
 {% load static %}
 
 {% block customcss %}
 {% endblock customcss %}
 
-{% block header %}
-FairWind Account
-{% endblock header%}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "ユーザー一覧" "accounts:users" %}
+{% endblock %}
 
 {% block content %}
 <div class="container">

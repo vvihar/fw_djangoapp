@@ -9,7 +9,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
     {% breadcrumb "担当" "accounts:division" %}
-    {% breadcrumb "新規作成" "accounts:division_create" %}
+    {% breadcrumb object.name "accounts:division_delete" object.id %}
 {% endblock %}
 
 {% block content %}
