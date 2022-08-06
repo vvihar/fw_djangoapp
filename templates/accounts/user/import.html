@@ -13,7 +13,7 @@ FairWind Account
 <div class="container">
     <form action="" method="POST" class="row g-3 mb-3" enctype="multipart/form-data"> {% csrf_token %}
         {% if imported_users %}
-            <div class="alert alert-info mb-0">{{ imported_users }} 件のデータの登録に成功しました。</div>
+            <div class="alert alert-primary mb-0">{{ imported_users }} 件のデータの登録に成功しました。</div>
         {% endif %}
         {% for error in errors %}
             <div class="alert alert-danger mb-0">{{ error }}</div>
