@@ -74,18 +74,14 @@ def profile_update(request):
 
 @login_required
 def index(request):
-    alerts = []
     senior_division_year = datetime.today().year - 2
     if not request.user.profile.faculty and request.user.profile.enrolled_year <= senior_division_year:
-        alerts.append("後期課程の進学先の情報を登録してください。")
+        messages.warning(request, "後期課程の進学先の情報を登録してください。")
     if not request.user.profile.group:
-        alerts.append("所属している班の情報を登録してください。")
+        messages.warning(request, "所属している班の情報を登録してください。")
     if not request.user.profile.division:
-        alerts.append("所属している担当の情報を登録してください。")
-    context = {
-        "alerts": alerts
-    }
-    return render(request, "accounts/index.html", context)
+        messages.warning(request, "所属している担当の情報を登録してください。")
+    return render(request, "accounts/index.html", {})
 
 
 class GroupList(ListView):
@@ -100,7 +96,6 @@ class GroupCreate(CreateView):
     success_url = reverse_lazy('accounts:group')
 
     def form_valid(self, form):
-        print(form.cleaned_data)
         messages.success(self.request, form.cleaned_data["name"] + 'を登録しました。')
         return super().form_valid(form)
 
@@ -118,7 +113,6 @@ class GroupUpdate(UpdateView):
     success_url = reverse_lazy('accounts:group')
 
     def form_valid(self, form):
-        print(form.cleaned_data)
         messages.success(self.request, form.cleaned_data["name"] + 'を更新しました。')
         return super().form_valid(form)
 
@@ -135,7 +129,6 @@ class DivisionCreate(CreateView):
     success_url = reverse_lazy('accounts:division')
 
     def form_valid(self, form):
-        print(form.cleaned_data)
         messages.success(self.request, form.cleaned_data["name"] + 'を登録しました。')
         return super().form_valid(form)
 
@@ -153,7 +146,6 @@ class DivisionUpdate(UpdateView):
     success_url = reverse_lazy('accounts:division')
 
     def form_valid(self, form):
-        print(form.cleaned_data)
         messages.success(self.request, form.cleaned_data["name"] + 'を更新しました。')
         return super().form_valid(form)
 

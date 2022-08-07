@@ -1,0 +1,18 @@
+{% extends "tools/base.html" %}
+{% load static %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block content %}
+<div class="container">
+    {% include 'components/messages.html' %}
+    <div class="row">
+        <div class="col-sm-6">
+            <a href="{% url 'tools:qrcode' %}" class="btn btn-outline-dark d-flex flex-column py-3 mb-3">
+                <div>QRコード</div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content%}

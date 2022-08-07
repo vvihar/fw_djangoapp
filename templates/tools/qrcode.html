@@ -1,0 +1,49 @@
+{% extends "tools/base.html" %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% load widget_tweaks %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "QRコード" "tools:qrcode" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% include 'components/messages.html' %}
+    <form method="post"> {% csrf_token %}
+        <div class="col-md-12">
+            <div class="form-floating mb-3">
+                {% render_field form.content class="form-control" placeholder="内容" %}
+                <label for="id_content">内容</label>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <button type="submit" class="btn btn-primary">作成</button>
+        </div>
+    </form>
+    {% if qr %}
+    <div class="card mb-3 mt-4" style="max-width: 540px">
+        <div class="row g-0">
+            <div class="col-md-3 d-flex justify-content-center align-items-center">
+                <img src="data:image/png;base64,{{ qr }}" alt="{{ content }}" class="img-fluid">
+            </div>
+            <div class="col-md-9">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        QRコード
+                    </h5>
+                    <p class="card-text">
+                        {{ content }}
+                    </p>
+                    <a href="data:image/png;base64,{{ qr }}" class="btn btn-secondary" download="qrcode.png">ダウンロード</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content%}

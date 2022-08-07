@@ -4,19 +4,9 @@
 {% block customcss %}
 {% endblock customcss %}
 
-{% block header %}
-FairWind Account
-{% endblock header%}
-
 {% block content %}
 <div class="container">
-    {% if alerts %}
-        {% for alert in alerts %}
-        <div class="alert alert-warning" role="alert">
-            {{ alert }}
-        </div>
-        {% endfor %}
-    {% endif %}
+    {% include 'components/messages.html' %}
     <div class="row">
         <div class="col-sm-6">
             <a href="{% url 'accounts:update' %}" class="btn btn-outline-dark d-flex flex-column py-3 mb-3">
