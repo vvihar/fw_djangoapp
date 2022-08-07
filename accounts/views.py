@@ -113,7 +113,7 @@ class GroupUpdate(UpdateView):
     success_url = reverse_lazy('accounts:group')
 
     def form_valid(self, form):
-        messages.success(self.request, form.cleaned_data["name"] + 'を更新しました。')
+        messages.success(self.request, form.cleaned_data["name"] + 'を編集しました。')
         return super().form_valid(form)
 
 
@@ -146,7 +146,7 @@ class DivisionUpdate(UpdateView):
     success_url = reverse_lazy('accounts:division')
 
     def form_valid(self, form):
-        messages.success(self.request, form.cleaned_data["name"] + 'を更新しました。')
+        messages.success(self.request, form.cleaned_data["name"] + 'を編集しました。')
         return super().form_valid(form)
 
 
