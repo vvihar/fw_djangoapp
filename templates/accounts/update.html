@@ -14,11 +14,7 @@
 
 {% block content %}
 <div class="container">
-    {% if info %}
-        <div class="alert alert-primary mb-4" role="alert">
-            {{ info }}
-        </div>
-    {% endif %}
+    {% include 'components/messages.html' %}
     <p>
         ユーザー名や姓名の変更を希望する場合は、プラットフォーム担当にお知らせください。
     </p>

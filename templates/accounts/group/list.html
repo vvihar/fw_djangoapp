@@ -12,7 +12,8 @@
 
 {% block content %}
 <div class="container">
-    <a href="{% url 'accounts:group_create' %}" class="btn btn-primary mb-3" tabindex="-1" role="button" aria-disabled="true">新規作成</a>
+    {% include 'components/messages.html' %}
+    <a href="{% url 'accounts:group_create' %}" class="btn btn-primary mb-3" tabindex="-1" role="button" aria-disabled="true">新規登録</a>
     <div class="row">
         {% for group in object_list %}
         <div class="col-sm-12 mb-3">

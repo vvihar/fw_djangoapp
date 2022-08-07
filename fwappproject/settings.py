@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -140,3 +141,10 @@ MEDIA_URL = 'media/'  # 画像へアクセスする際のURL（開発環境の�
 LOGIN_URL = 'accounts:login'  # urls.py の name を書く
 LOGIN_REDIRECT_URL = 'accounts:'  # ログイン後に遷移するURL
 LOGOUT_REDIRECT_URL = 'accounts:login'  # ログアウト後に遷移するURL
+
+MESSAGE_TAGS = {
+    messages.INFO: 'alert alert-info',
+    messages.SUCCESS: 'alert alert-success',
+    messages.WARNING: 'alert alert-warning',
+    messages.ERROR: 'alert alert-danger',
+}

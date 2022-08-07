@@ -1,5 +1,6 @@
 from __future__ import division
 import csv
+from email import message
 from django.views import generic
 import io
 from django.shortcuts import render, redirect
@@ -11,6 +12,7 @@ from .models import Group, Division, Profile
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 # Create your views here.
@@ -53,10 +55,10 @@ def profile_update(request):
             profile.save()
             user.email = profile.email
             user.save()
+            messages.success(request, '更新しました。')
             context = {
                 "user_form": user_form,
                 "profile_form": profile_form,
-                "info": "更新しました。",
             }
             return render(request, "accounts/update.html", context)
     else:
@@ -97,6 +99,11 @@ class GroupCreate(CreateView):
     fields = ('name',)
     success_url = reverse_lazy('accounts:group')
 
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        messages.success(self.request, form.cleaned_data["name"] + 'を登録しました。')
+        return super().form_valid(form)
+
 
 class GroupDelete(DeleteView):
     template_name = 'accounts/group/delete.html'
@@ -110,6 +117,11 @@ class GroupUpdate(UpdateView):
     fields = ('name',)
     success_url = reverse_lazy('accounts:group')
 
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        messages.success(self.request, form.cleaned_data["name"] + 'を更新しました。')
+        return super().form_valid(form)
+
 
 class DivisionList(ListView):
     template_name = 'accounts/division/list.html'
@@ -121,6 +133,11 @@ class DivisionCreate(CreateView):
     model = Division
     fields = ('name',)
     success_url = reverse_lazy('accounts:division')
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        messages.success(self.request, form.cleaned_data["name"] + 'を登録しました。')
+        return super().form_valid(form)
 
 
 class DivisionDelete(DeleteView):
@@ -134,6 +151,11 @@ class DivisionUpdate(UpdateView):
     model = Division
     fields = ('name',)
     success_url = reverse_lazy('accounts:division')
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        messages.success(self.request, form.cleaned_data["name"] + 'を更新しました。')
+        return super().form_valid(form)
 
 
 class UserList(ListView):
@@ -171,25 +193,26 @@ class UserImport(generic.FormView):
                 "password": row[10],
             }
             if user_data["username"] == '':
-                errors.append("ユーザー名が空白の行が見つかりました。")
+                messages.error(self.request, "ユーザー名が空白の行が見つかりました。")
                 continue
             error_count = 0
             for key, value in user_data.items():
                 if value == '' and key != "group" and key != "division":  # 担当、班は空白でも OK
                     error_temp = user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。"
                     if not error_temp in errors:
-                        errors.append(error_temp)
+                        messages.error(self.request, error_temp)
                     error_count += 1
             if error_count > 0:
                 continue
             if user_data["username"] in username_list:
-                errors.append(user_data["username"] + " は、ユーザー名が他のユーザーと重複しているため、読み込まれませんでした。")
+                messages.error(self.request, user_data["username"] +
+                               " は、ユーザー名が他のユーザーと重複しているため、読み込まれませんでした。")
                 continue
             if user_data["group"] != '' and not user_data["group"] in list(Group.objects.values_list('name', flat=True)):
-                errors.append(user_data["username"] + " は、班が存在しないため、読み込まれませんでした。")
+                messages.error(self.request, user_data["username"] + " は、班が存在しないため、読み込まれませんでした。")
                 continue
             if user_data["division"] != '' and not user_data["division"] in list(Division.objects.values_list('name', flat=True)):
-                errors.append(user_data["username"] + " は、担当が存在しないため、読み込まれませんでした。")
+                messages.error(self.request, user_data["username"] + " は、担当が存在しないため、読み込まれませんでした。")
                 continue
             user_pk += 1
             user = User.objects.create(
@@ -218,10 +241,10 @@ class UserImport(generic.FormView):
                 profile.division = Division.objects.get(name=user_data["division"])
             profile.save()
             imported_users += 1
+        if imported_users > 0:
+            messages.success(self.request, str(imported_users) + " 件のユーザーを読み込みました。")
         context = {
-            "errors": errors,
             "form": form,
-            "imported_users": imported_users,
         }
         # TODO: FLASH MESSAGE 機能に移行（https://docs.djangoproject.com/ja/3.2/ref/contrib/messages/）
         return render(self.request, 'accounts/user/import.html', context)

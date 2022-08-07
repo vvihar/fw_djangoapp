@@ -15,7 +15,8 @@
 {% block content %}
 <div class="container">
     <div class="mb-3">
-        <strong>{{object.name}}</strong>を削除しますか？
+        <p><strong>{{object.name}}</strong>を削除しますか？</p>
+        <p>削除すると、この担当に所属するユーザーの担当は空欄になります。</p>
     </div>
     <form action="" method="POST">{% csrf_token %}
         <input type="submit" value="削除" class="btn btn-danger">

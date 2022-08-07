@@ -12,6 +12,7 @@
 
 {% block content %}
 <div class="container">
+    {% include 'components/messages.html' %}
     <a href="{% url 'accounts:division_create' %}" class="btn btn-primary mb-3" tabindex="-1" role="button" aria-disabled="true">新規作成</a>
     <div class="row">
         {% for division in object_list %}

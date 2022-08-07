@@ -14,6 +14,7 @@
 
 {% block content %}
 <div class="container">
+    {% include 'components/messages.html' %}
     <form action="" method="POST" class="row g-3 mb-3" enctype="multipart/form-data"> {% csrf_token %}
         {% if imported_users %}
             <div class="alert alert-primary mb-0">{{ imported_users }} 件のデータの登録に成功しました。</div>
