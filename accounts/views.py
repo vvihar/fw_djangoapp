@@ -55,7 +55,7 @@ def profile_update(request):
             profile.save()
             user.email = profile.email
             user.save()
-            messages.success(request, '更新しました。')
+            messages.success(request, 'ユーザー情報を更新しました。')
             context = {
                 "user_form": user_form,
                 "profile_form": profile_form,
