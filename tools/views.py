@@ -8,6 +8,7 @@ import base64
 from io import BytesIO
 from .forms import QRcodeForm
 
+
 # Create your views here.
 
 
@@ -40,3 +41,8 @@ def qr(request):
             "form": form,
         }
     return render(request, 'tools/qrcode.html', context)
+
+
+def fw_logo(request):
+    return render(request, 'tools/logo.html')
+# TODO: ロゴのレンダリングを JavaScript から Python に移行
