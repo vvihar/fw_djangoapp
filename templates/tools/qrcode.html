@@ -2,6 +2,7 @@
 {% load static %}
 {% load django_bootstrap_breadcrumbs %}
 {% load widget_tweaks %}
+{% load url_target_blank %}
 
 {% block customcss %}
 {% endblock customcss %}
@@ -37,7 +38,7 @@
                         QRコード
                     </h5>
                     <p class="card-text">
-                        {{ content }}
+                        {{ content|urlize|url_target_blank }}
                     </p>
                     <a href="data:image/png;base64,{{ qr }}" class="btn btn-secondary" download="qrcode.png">ダウンロード</a>
                 </div>
