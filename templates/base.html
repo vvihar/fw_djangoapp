@@ -1,4 +1,5 @@
 {% load django_bootstrap_breadcrumbs %}
+{% load startswith %}
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -34,10 +35,31 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">ホーム</a>
+                        <a class="nav-link" href="#">ホーム</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'tools:' %}">ツール</a>
+                        <a
+                            {% if request.path|startswith:'/tools/' %}
+                            class="nav-link active" aria-current="page"
+                            {% else %}
+                            class="nav-link"
+                            {% endif %}
+                            href="{% url 'tools:' %}"
+                        >
+                            ツール
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            {% if request.path|startswith:'/accounts/' %}
+                            class="nav-link active" aria-current="page"
+                            {% else %}
+                            class="nav-link"
+                            {% endif %}
+                            href="{% url 'accounts:' %}"
+                        >
+                            アカウント
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
