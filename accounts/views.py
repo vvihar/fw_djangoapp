@@ -105,6 +105,10 @@ class GroupDelete(DeleteView):
     model = Group
     success_url = reverse_lazy('accounts:group')
 
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, '班を削除しました。')
+        return super().delete(request, *args, **kwargs)
+
 
 class GroupUpdate(UpdateView):
     template_name = 'accounts/group/update.html'
@@ -137,6 +141,10 @@ class DivisionDelete(DeleteView):
     template_name = 'accounts/division/delete.html'
     model = Division
     success_url = reverse_lazy('accounts:division')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, '担当を削除しました。')
+        return super().delete(request, *args, **kwargs)
 
 
 class DivisionUpdate(UpdateView):
