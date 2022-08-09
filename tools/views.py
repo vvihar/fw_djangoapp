@@ -45,4 +45,5 @@ def qr(request):
 
 def fw_logo(request):
     return render(request, 'tools/logo.html')
-# TODO: ロゴのレンダリングを JavaScript から Python に移行
+# このアプリは実質的に Python ではなく、JavaScript で動いている
+# Django はページを返すだけで、特別な処理は何もしていない
