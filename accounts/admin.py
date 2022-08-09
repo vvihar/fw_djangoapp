@@ -6,6 +6,7 @@ from .models import Profile, Group, Division
 # Register your models here.
 
 
+# 参考：https://blog.narito.ninja/detail/47/
 class ProfileInline(admin.StackedInline):
     model = Profile
     max_num = 1
