@@ -1,6 +1,4 @@
-from __future__ import division
 import csv
-from email import message
 from django.views import generic
 import io
 from django.shortcuts import render, redirect
