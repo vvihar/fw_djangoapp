@@ -149,5 +149,3 @@ logoGrad.onclick = () => {
     document.getElementById("logoPath").style.fill =
         "url(#linearGradient13147)";
 };
-elementArray.elements.classList.add("form-control");
-elementArray.elements.classList.add("form-control-color");
