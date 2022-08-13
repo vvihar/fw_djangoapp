@@ -1,16 +1,10 @@
-const container = document.getElementsByClassName("color-picker");
-/*let elementArray = [];
-for (let i = 0; i < container.length; i++) {
-    const newElement = document.createElement("div");
-    container[i].appendChild(newElement);
-    elementArray.push(newElement);
-}*/
-elementArray = Array.from(container);
+var bg_default = document.getElementById("id_bgcolor").value;
+var qr_default = document.getElementById("id_qrcolor").value;
 const pickrBG = new Pickr({
-    el: elementArray[1],
+    el: "#colorBG",
     theme: "monolith",
     lockOpacity: true,
-    default: "#ffffff",
+    default: bg_default,
     position: "right",
 
     swatches: [
@@ -63,13 +57,14 @@ const pickrBG = new Pickr({
 });
 pickrBG.on("change", (color, source, instance) => {
     var color = color.toHEXA().toString();
-    document.getElementById("logo-bg").style.backgroundColor = color;
+    document.getElementById("id_bgcolor").value = color;
 });
 
 const pickrLogo = new Pickr({
-    el: elementArray[0],
+    el: "#colorQR",
     theme: "monolith",
     lockOpacity: true,
+    default: qr_default,
     position: "right",
 
     swatches: [
@@ -123,29 +118,5 @@ const pickrLogo = new Pickr({
 
 pickrLogo.on("change", (color, source, instance) => {
     var color = color.toHEXA().toString();
-    document.getElementById("logoPath").style.fill = color;
+    document.getElementById("id_qrcolor").value = color;
 });
-
-let backgroundInput = document.getElementById("backgroundColor");
-let logoInput = document.getElementById("logoColor");
-let reset = document.getElementById("reset");
-let logoGrad = document.getElementById("gradient");
-
-/*backgroundInput.onchange = () => {
-    var color = backgroundInput.value;
-    document.body.style.backgroundColor = color;
-};
-logoInput.onchange = () => {
-    var color = logoInput.value;
-    document.getElementById("logoPath").style.fill = color;
-};*/
-
-reset.onclick = () => {
-    document.getElementById("logoPath").style.fill =
-        "url(#linearGradient13147)";
-    document.getElementById("logo-bg").style.backgroundColor = "white";
-};
-logoGrad.onclick = () => {
-    document.getElementById("logoPath").style.fill =
-        "url(#linearGradient13147)";
-};

@@ -5,6 +5,20 @@
 {% load url_target_blank %}
 
 {% block customcss %}
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@1.8.2/dist/themes/monolith.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+<style>
+    #qrcode-wrap {
+        background: {{ bgcolor }};
+        border-radius: calc(.25rem - 1px) 0 0 calc(.25rem - 1px);
+    }
+    .pickr .pcr-button::after {
+        border: 1px solid rgba(0,0,0,.125);
+    }
+</style>
 {% endblock customcss %}
 
 {% block breadcrumbs %}
@@ -16,10 +30,31 @@
 <div class="container">
     {% include 'components/messages.html' %}
     <form method="post"> {% csrf_token %}
+        {% render_field form.bgcolor %}
+        {% render_field form.qrcolor %}
         <div class="col-md-12">
             <div class="form-floating mb-3">
                 {% render_field form.content class="form-control" placeholder="内容" %}
                 <label for="id_content">内容</label>
+            </div>
+        </div>
+        <div id="color-pickers" class="card mb-3">
+            <div class="card-header">設定</div>
+            <div class="card-body">
+                <div class="d-flex flex-row mb-3">
+                    <div class="me-3">
+                        <label>
+                            <span class="form-label">QRコード</span>
+                            <div class="color-picker" id="colorQR"></div>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <span class="form-label">背景</span>
+                            <div class="color-picker" id="colorBG"></div>
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-12 mb-3">
@@ -29,7 +64,7 @@
     {% if qr %}
     <div class="card mb-3 mt-4" style="max-width: 540px">
         <div class="row g-0">
-            <div class="col-md-3 d-flex justify-content-center align-items-center">
+            <div class="col-md-3 d-flex justify-content-center align-items-center" id="qrcode-wrap">
                 <img src="data:image/png;base64,{{ qr }}" alt="{{ content }}" class="img-fluid">
             </div>
             <div class="col-md-9">
@@ -47,4 +82,5 @@
     </div>
     {% endif %}
 </div>
+<script src="{% static 'tools/qrcode/colorpicker.js' %}"></script>
 {% endblock content%}

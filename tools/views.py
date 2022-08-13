@@ -22,7 +22,15 @@ def qr(request):
     if request.method == "POST":
         if form.is_valid():
             content = form.cleaned_data["content"]
-            qrcode_img = qrcode.make(content, box_size=15)
+            bgcolor = form.cleaned_data["bgcolor"]
+            qrcolor = form.cleaned_data["qrcolor"]
+            qr = qrcode.QRCode(
+                box_size=15,
+                border=4,
+            )
+            qr.add_data(content)
+            qr.make(fit=True)
+            qrcode_img = qr.make_image(fill_color=qrcolor, back_color=bgcolor)
             buffer = BytesIO()
             qrcode_img.save(buffer, format="PNG")
             qrcode_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
@@ -30,6 +38,8 @@ def qr(request):
                 "qr": qrcode_base64,
                 "content": content,
                 "form": form,
+                "bgcolor": bgcolor,
+                "qrcolor": qrcolor,
             }
         else:
             messages.error(request, '入力に誤りがあります。')
@@ -39,6 +49,8 @@ def qr(request):
     else:
         context = {
             "form": form,
+            "qrcolor": "#000000",
+            "bgcolor": "#FFFFFF",
         }
     return render(request, 'tools/qrcode.html', context)
 

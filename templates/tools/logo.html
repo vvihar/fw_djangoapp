@@ -15,6 +15,9 @@
         width: 100%;
         height: 100%;
     }
+    .pickr .pcr-button::after {
+        border: 1px solid rgba(0,0,0,.125);
+    }
 </style>
 {% endblock customcss %}
 
@@ -29,7 +32,7 @@
             ダウンロードする画像には、背景色は反映されません。透過画像（<code>.png</code>）がダウンロードされます。
         </p>
         <p>今後、ダウンロードできる画像の画質の向上を目指します。</p>
-        <div id="color-pickers" class="card">
+        <div id="color-pickers" class="card mb-3">
             <div class="card-header">設定</div>
             <div class="card-body">
                 <div class="d-flex flex-row mb-3">
@@ -47,14 +50,15 @@
                     </div>
                 </div>
                 <div>
-                    <button id="gradient" class="btn btn-secondary">グラデーション</button>
-                    <button id="reset" class="btn btn-danger">元に戻す</button>
-                    <button id="download" class="btn btn-primary">
-                        ダウンロード
-                    </button>
+                    <button id="gradient" class="btn btn-secondary btn-sm">グラデーション</button>
+                    <button id="reset" class="btn btn-danger btn-sm">元に戻す</button>
                 </div>
             </div>
         </div>
+
+        <button id="download" class="btn btn-primary">
+            ダウンロード
+        </button>
 
         <div class="card my-3">
             <div class="card-header">プレビュー</div>
