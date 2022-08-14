@@ -9,3 +9,7 @@ def memberview(request):  # 基本的にはrequestを引数にとる
 
 class helloWorldView(TemplateView):
     template_name = 'helloworld.html'
+
+
+class home(TemplateView):
+    template_name = 'index.html'

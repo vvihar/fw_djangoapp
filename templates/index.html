@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block title %}
+FairWind Portal
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="p-3 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold mb-4">地方高校生に、追い風を</h1>
+            <a class="btn btn-primary btn-lg" href="https://fairwind-ut.com/" target="_blank">公式ウェブサイト</a>
+        </div>
+    </div>
+    {% include 'components/messages.html' %}
+    <div class="row">
+        <div class="col-sm-6">
+            <a href="{% url 'tools:' %}" class="btn btn-outline-dark d-flex flex-column py-3 mb-3">
+                <div>ツール</div>
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a href="{% url 'accounts:' %}" class="btn btn-outline-dark d-flex flex-column py-3 mb-3">
+                <div>アカウント</div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content%}
