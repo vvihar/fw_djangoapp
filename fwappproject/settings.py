@@ -41,8 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'django_bootstrap_breadcrumbs',
-    'utils.apps.UtilsConfig',
-    'helloworldapp.apps.HelloworldappConfig',  # app名のあとに.apps.AppnameConfigを追加
+    'utils.apps.UtilsConfig',  # app名のあとに.apps.AppnameConfigを追加
     'todo.apps.TodoConfig',
     'boardapp.apps.BoardappConfig',
     'accounts.apps.AccountsConfig',

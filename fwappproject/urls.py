@@ -15,17 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import home, memberview, helloWorldView  # views.pyから関数をimport
+from .views import home  # views.pyから関数をimport
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home.as_view(), name='home'),
-    path('members/', memberview),  # memberview関数を呼び出す (function based view)
-    # helloWorldViewを呼び出す (class based view)
-    path('helloworld/', helloWorldView.as_view()),
-    path('app/', include('helloworldapp.urls')),
     path('todo/', include('todo.urls'), name="todoapp"),
     path('board/', include('boardapp.urls'), name="boardapp"),
     path('accounts/', include('accounts.urls'), name="accounts"),
