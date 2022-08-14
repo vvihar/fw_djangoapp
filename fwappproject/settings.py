@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'ja-jp'
+LANGUAGE_CODE = 'ja'
 
 TIME_ZONE = 'Asia/Tokyo'
 
@@ -141,8 +141,8 @@ MEDIA_URL = 'media/'  # 画像へアクセスする際のURL（開発環境の�
 
 # 認証機能関係
 LOGIN_URL = 'accounts:login'  # urls.py の name を書く
-LOGIN_REDIRECT_URL = 'accounts:'  # ログイン後に遷移するURL
-LOGOUT_REDIRECT_URL = 'accounts:login'  # ログアウト後に遷移するURL
+LOGIN_REDIRECT_URL = 'home'  # ログイン後に遷移するURL
+LOGOUT_REDIRECT_URL = 'home'  # ログアウト後に遷移するURL
 
 MESSAGE_TAGS = {
     messages.INFO: 'alert alert-info',

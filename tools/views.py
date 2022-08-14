@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # QR Code Generator
 from PIL import Image
@@ -11,12 +12,13 @@ from .forms import QRcodeForm
 
 # Create your views here.
 
-
+@login_required
 def index(request):
     return render(request, 'tools/index.html')
 
 
 # QR Code Generator
+@login_required
 def qr(request):
     form = QRcodeForm(request.POST or None)
     if request.method == "POST":
@@ -55,6 +57,7 @@ def qr(request):
     return render(request, 'tools/qrcode.html', context)
 
 
+@login_required
 def fw_logo(request):
     return render(request, 'tools/logo.html')
 # このアプリは実質的に Python ではなく、JavaScript で動いている
