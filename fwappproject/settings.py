@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_bootstrap_breadcrumbs',
     'utils.apps.UtilsConfig',  # app名のあとに.apps.AppnameConfigを追加
-    'todo.apps.TodoConfig',
-    'boardapp.apps.BoardappConfig',
     'accounts.apps.AccountsConfig',
     'clubroom.apps.ClubroomConfig',
 ]
