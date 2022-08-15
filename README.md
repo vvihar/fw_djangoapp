@@ -3,6 +3,7 @@
 ## 使い方
 
 以下を順番にターミナルで実行してください。
+Python のバージョンは、`3.9.13` を推奨します。
 
 ```
 git clone https://github.com/vvihar/fw_djangoapp
