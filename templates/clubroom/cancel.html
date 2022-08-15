@@ -1,0 +1,38 @@
+{% extends "clubroom/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'accounts/css/suggest.css' %}">
+<script src="{% static 'accounts/js/suggest.js' %}"></script>
+{% endblock customcss %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "予約取消" "clubroom:reservation_cancel" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="mb-3">
+        <p>
+            <strong>{{object.title}}</strong>（{{object.date}} {{object.start_time}}〜{{object.end_time}}）をキャンセルしますか？
+        </p>
+        <p>
+            {% if user.profile != object.person_in_charge and user.is_staff %}
+                この予約の予約者は
+                <strong>
+                    {{ object.person_in_charge.user.last_name }}{{ object.person_in_charge.user.first_name }}さん
+                </strong>
+                です。<br>
+                あなたは、管理者権限を利用して、このページにアクセスしています。
+            {% endif %}
+        </p>
+    </div>
+    <form action="" method="POST">{% csrf_token %}
+        <input type="submit" value="取消" class="btn btn-danger">
+        <a href="{% url 'clubroom:' %}" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">キャンセル</a>
+    </form>
+</div>
+{% endblock content%}

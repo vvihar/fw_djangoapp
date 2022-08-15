@@ -11,6 +11,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -246,3 +247,15 @@ class UserImport(generic.FormView):
             "form": form,
         }
         return render(self.request, 'accounts/user/import.html', context)
+
+
+@login_required
+def api_members_get(request):
+    # サジェスト候補のメンバーを JSON で返す。
+    keyword = request.GET.get('keyword')
+    if keyword:
+        member_list = [{'pk': user.profile.pk, 'name': str(
+            user.last_name + ' ' + user.first_name)} for user in User.objects.filter(username__icontains=keyword).all()]
+    else:
+        member_list = []
+    return JsonResponse({'object_list': member_list})

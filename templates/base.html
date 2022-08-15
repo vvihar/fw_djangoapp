@@ -60,6 +60,18 @@
                     </li>
                     <li class="nav-item">
                         <a
+                            {% if request.path|startswith:'/b303/' %}
+                            class="nav-link active" aria-current="page"
+                            {% else %}
+                            class="nav-link"
+                            {% endif %}
+                            href="{% url 'clubroom:' %}"
+                        >
+                            部室予約
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
                             {% if request.path|startswith:'/accounts/' %}
                             class="nav-link active" aria-current="page"
                             {% else %}

@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
     'widget_tweaks',
     'django_bootstrap_breadcrumbs',
     'utils.apps.UtilsConfig',  # app名のあとに.apps.AppnameConfigを追加
     'todo.apps.TodoConfig',
     'boardapp.apps.BoardappConfig',
     'accounts.apps.AccountsConfig',
+    'clubroom.apps.ClubroomConfig',
 ]
 
 MIDDLEWARE = [
@@ -149,6 +151,8 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert alert-warning',
     messages.ERROR: 'alert alert-danger',
 }
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 # 最後に書く
 django_heroku.settings(locals())

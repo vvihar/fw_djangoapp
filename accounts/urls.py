@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import signup, profile_update, index, GroupList, GroupCreate, GroupDelete, GroupUpdate, DivisionList, DivisionCreate, DivisionDelete, DivisionUpdate, UserList, UserImport
+from .views import signup, profile_update, index, GroupList, GroupCreate, GroupDelete, GroupUpdate, DivisionList, DivisionCreate, DivisionDelete, DivisionUpdate, UserList, UserImport, api_members_get
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import staff_member_required
@@ -38,4 +38,6 @@ urlpatterns = [
     path('users/', staff_member_required(UserList.as_view(), login_url='accounts:login'), name="users"),
     path('users/import/', staff_member_required(UserImport.as_view(),
          login_url='accounts:login'), name="users_import"),
+
+    path('api/members_get/', api_members_get, name='api_members_get')
 ]

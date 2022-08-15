@@ -26,5 +26,6 @@ urlpatterns = [
     path('board/', include('boardapp.urls'), name="boardapp"),
     path('accounts/', include('accounts.urls'), name="accounts"),
     path('tools/', include('tools.urls'), name="tools"),
+    path('b303/', include('clubroom.urls'), name="clubroom"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

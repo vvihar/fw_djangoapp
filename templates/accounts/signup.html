@@ -46,7 +46,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-floating mb-3">
-                {% render_field profile_form.sex class="form-select" aria-label="Floating label select example" %}
+                {% render_field profile_form.sex class="form-select" %}
                 <label for="id_sex">性別</label>
             </div>
         </div>
@@ -90,20 +90,20 @@
         </div>
         <div class="col-md-4">
             <div class="form-floating mb-3">
-                {% render_field profile_form.course class="form-select" aria-label="Floating label select example" aria-describedby="courseHelp"%}
+                {% render_field profile_form.course class="form-select" aria-describedby="courseHelp"%}
                 <label for="id_course">科類</label>
                 <div id="courseHelp" class="form-text">後期課程所属の場合は出身科類</div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-floating mb-3">
-                {% render_field profile_form.enrolled_year class="form-select" id="selectEnrolledYear" aria-label="Floating label select example" %}
+                {% render_field profile_form.enrolled_year class="form-select" id="selectEnrolledYear" %}
                 <label for="id_enrolled_year">入学年度</label>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-floating mb-3">
-                {% render_field profile_form.grade class="form-select" aria-label="Floating label select example" %}
+                {% render_field profile_form.grade class="form-select" %}
                 <label for="id_grade">期</label>
             </div>
         </div>
