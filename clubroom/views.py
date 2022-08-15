@@ -54,6 +54,12 @@ class reservation(LoginRequiredMixin,  CreateView):
     def form_valid(self, form):
         #FIXME: 予約の競合がないかをチェック
         reservation = form.save(commit=False)
+        # 既存の予約との競合をチェックする
+        date = reservation.date
+        for existing_reservation in B303Reservation.objects.filter(date=date):
+            if reservation.start_time < existing_reservation.end_time and reservation.end_time > existing_reservation.start_time and existing_reservation.pk != reservation.pk:
+                messages.error(self.request, '「' + existing_reservation.title + '」と予約の時間が重複しています。')
+                return redirect('clubroom:reservation_update', pk=reservation.pk)
         reservation.start_datetime = datetime.datetime.combine(
             reservation.date, reservation.start_time)
         reservation.end_datetime = datetime.datetime.combine(reservation.date, reservation.end_time)
@@ -62,7 +68,6 @@ class reservation(LoginRequiredMixin,  CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(form.cleaned_data)
         messages.error(self.request, '入力に誤りがあります。')
         return super().form_invalid(form)
 
@@ -76,6 +81,11 @@ class reservationUpdate(LoginRequiredMixin, OnlyYouMixin, UpdateView):
     def form_valid(self, form):
         #FIXME: 予約の競合がないかをチェック
         reservation = form.save(commit=False)
+        date = reservation.date
+        for existing_reservation in B303Reservation.objects.filter(date=date):
+            if reservation.start_time < existing_reservation.end_time and reservation.end_time > existing_reservation.start_time and existing_reservation.pk != reservation.pk:
+                messages.error(self.request, '「' + existing_reservation.title + '」と予約の時間が重複しています。')
+                return redirect('clubroom:reservation_update', pk=reservation.pk)
         reservation.start_datetime = make_aware(
             datetime.datetime.combine(reservation.date, reservation.start_time))
         reservation.end_datetime = make_aware(
