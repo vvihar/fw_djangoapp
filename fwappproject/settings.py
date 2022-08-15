@@ -156,5 +156,6 @@ except ImportError:
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
+    SECURE_SSL_REDIRECT = True
     import django_heroku
     django_heroku.settings(locals())
