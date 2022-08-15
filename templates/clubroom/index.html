@@ -13,6 +13,10 @@
 
     </a>
 
+    <p>
+        予約変更と予約取消は、予約者と管理者のみが行うことができます。
+    </p>
+
     <div class="row row-cols-1 row-cols-md-2 g-4">
     {% for event in events_list %}
         <div class="col">
@@ -46,10 +50,12 @@
                             {% endfor %}
                         </dd>
                     </dl>
+                    {% if user.profile == event.person_in_charge or user.is_staff %}
                     <div>
                         <a class="btn btn-secondary btn-sm" href="{% url 'clubroom:reservation_update' event.pk %}" role="button">予約変更</a>
                         <a class="btn btn-danger btn-sm" href="{% url 'clubroom:reservation_cancel' event.pk %}" role="button">予約取消</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
