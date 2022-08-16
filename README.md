@@ -12,6 +12,7 @@ python3 -m venv env
 source env/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
+python fwappproject/generate_local_settings.py
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
