@@ -58,11 +58,11 @@ class reservation(LoginRequiredMixin,  CreateView):
     success_url = reverse_lazy('clubroom:')
 
     def form_valid(self, form):
-        #FIXME: 予約の競合がないかをチェック
         reservation = form.save(commit=False)
-        reservation.start_datetime = datetime.datetime.combine(
-            reservation.date, reservation.start_time)
-        reservation.end_datetime = datetime.datetime.combine(reservation.date, reservation.end_time)
+        reservation.start_datetime = make_aware(
+            datetime.datetime.combine(reservation.date, reservation.start_time))
+        reservation.end_datetime = make_aware(
+            datetime.datetime.combine(reservation.date, reservation.end_time))
         if reservation.start_datetime >= reservation.end_datetime:
             messages.error(self.request, '開始時刻は終了時刻よりも前に設定してください。')
             return super().form_invalid(form)
@@ -93,7 +93,6 @@ class reservationUpdate(LoginRequiredMixin, OnlyYouMixin, UpdateView):
     success_url = reverse_lazy('clubroom:')
 
     def form_valid(self, form):
-        #FIXME: 予約の競合がないかをチェック
         reservation = form.save(commit=False)
         reservation.start_datetime = make_aware(
             datetime.datetime.combine(reservation.date, reservation.start_time))
@@ -107,6 +106,7 @@ class reservationUpdate(LoginRequiredMixin, OnlyYouMixin, UpdateView):
         if reservation.start_datetime < now:
             messages.error(self.request, '過去の日時は予約できません。')
             return super().form_invalid(form)
+        # 既存の予約との競合をチェックする
         date = reservation.date
         for existing_reservation in B303Reservation.objects.filter(date=date):
             if reservation.start_time < existing_reservation.end_time and reservation.end_time > existing_reservation.start_time and existing_reservation.pk != reservation.pk:
