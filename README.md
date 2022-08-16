@@ -14,6 +14,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 cd fwappproject
 python generate_local_settings.py
+cd ../
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
