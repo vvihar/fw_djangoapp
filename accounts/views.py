@@ -160,7 +160,6 @@ class DivisionUpdate(UpdateView):
 class UserList(ListView):
     template_name = 'accounts/user/list.html'
     model = User
-    #TODO: ログイン必須に
 
 
 class UserImport(generic.FormView):
