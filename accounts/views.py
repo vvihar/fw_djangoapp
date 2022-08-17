@@ -175,6 +175,7 @@ class UserImport(generic.FormView):
         csvfile = io.TextIOWrapper(form.cleaned_data['file'], encoding='utf-8')
         reader = csv.reader(csvfile)
         username_list = list(User.objects.values_list('username', flat=True))
+        email_list = list(User.objects.values_list('email', flat=True))
         # 1行ずつ取り出し、作成していく
         for row in reader:
             for i in range(len(row)):
@@ -207,6 +208,10 @@ class UserImport(generic.FormView):
             if user_data["username"] in username_list:
                 messages.error(self.request, user_data["username"] +
                                " は、ユーザー名が他のユーザーと重複しているため、読み込まれませんでした。")
+                continue
+            if user_data["email"] in email_list:
+                messages.error(self.request, user_data["username"] +
+                               " は、メールアドレスが他のユーザーと重複しているため、読み込まれませんでした。")
                 continue
             if user_data["group"] != '' and not user_data["group"] in list(Group.objects.values_list('name', flat=True)):
                 messages.error(self.request, user_data["username"] + " は、班が存在しないため、読み込まれませんでした。")
