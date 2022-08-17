@@ -52,7 +52,7 @@ class OnlyYouMixin(UserPassesTestMixin):
 
 
 class reservation(LoginRequiredMixin,  CreateView):
-    template_name = 'clubroom/reservation.html'
+    template_name = 'clubroom/new.html'
     model = B303Reservation
     form_class = ReservationForm
     success_url = reverse_lazy('clubroom:')
