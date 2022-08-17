@@ -215,21 +215,21 @@ class UserImport(generic.FormView):
                 messages.error(self.request, user_data["username"] + " は、担当が存在しないため、読み込まれませんでした。")
                 continue
             new_user = User(username=user_data["username"], last_name=user_data["last_name"],
-                            first_name=user_data["first_name"], email=user_data["email"], is_staff=True, is_active=True, is_superuser=False)
-            new_user.set_password(user_data["password"])
-            new_users.append(new_user)
+                            first_name=user_data["first_name"], email=user_data["email"], is_staff=True, is_active=True, is_superuser=False)  # 一旦 User モデルを作成
+            new_user.set_password(user_data["password"])  # パスワードをセット
+            new_users.append(new_user)  # User モデルを保存するためのリストに追加
             new_profile = Profile(
-                email=user_data["email"], course=user_data["course"], enrolled_year=user_data["enrolled_year"], grade=user_data["grade"], sex=user_data["sex"],)
+                email=user_data["email"], course=user_data["course"], enrolled_year=user_data["enrolled_year"], grade=user_data["grade"], sex=user_data["sex"],)  # 一旦 Profile モデルを作成
             if user_data["group"] != '':
                 new_profile.group = Group.objects.get(name=user_data["group"])
             if user_data["division"] != '':
                 new_profile.division = Division.objects.get(name=user_data["division"])
-            new_profiles.append(new_profile)
+            new_profiles.append(new_profile)  # Profile モデルを保存するためのリストに追加
             imported_users += 1
-        User.objects.bulk_create(new_users)
+        User.objects.bulk_create(new_users)  # User モデルをまとめて保存
         for profile in new_profiles:
             profile.user = User.objects.get(email=profile.email)
-        Profile.objects.bulk_create(new_profiles)
+        Profile.objects.bulk_create(new_profiles)  # Profile モデルをまとめて保存
         if imported_users > 0:
             messages.success(self.request, str(imported_users) + " 件のユーザーを読み込みました。")
         context = {
