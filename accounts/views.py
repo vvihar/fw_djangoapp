@@ -174,7 +174,6 @@ class UserImport(generic.FormView):
         # csv.readerに渡すため、TextIOWrapperでテキストモードなファイルに変換
         csvfile = io.TextIOWrapper(form.cleaned_data['file'], encoding='utf-8')
         reader = csv.reader(csvfile)
-        user_pk = User.objects.last().pk
         username_list = list(User.objects.values_list('username', flat=True))
         # 1行ずつ取り出し、作成していく
         for row in reader:
@@ -215,8 +214,7 @@ class UserImport(generic.FormView):
             if user_data["division"] != '' and not user_data["division"] in list(Division.objects.values_list('name', flat=True)):
                 messages.error(self.request, user_data["username"] + " は、担当が存在しないため、読み込まれませんでした。")
                 continue
-            user_pk += 1
-            new_user = User(id=user_pk, username=user_data["username"], last_name=user_data["last_name"],
+            new_user = User(username=user_data["username"], last_name=user_data["last_name"],
                             first_name=user_data["first_name"], email=user_data["email"], is_staff=True, is_active=True, is_superuser=False)
             new_user.set_password(user_data["password"])
             new_users.append(new_user)
