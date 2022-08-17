@@ -168,6 +168,8 @@ class UserImport(generic.FormView):
 
     def form_valid(self, form):
         errors = []
+        new_users = []
+        new_profiles = []
         imported_users = 0
         # csv.readerに渡すため、TextIOWrapperでテキストモードなファイルに変換
         csvfile = io.TextIOWrapper(form.cleaned_data['file'], encoding='utf-8')
@@ -214,32 +216,22 @@ class UserImport(generic.FormView):
                 messages.error(self.request, user_data["username"] + " は、担当が存在しないため、読み込まれませんでした。")
                 continue
             user_pk += 1
-            user = User.objects.create(
-                id=user_pk,
-                username=user_data["username"],
-                email=user_data["email"],
-                first_name=user_data["first_name"],
-                last_name=user_data["last_name"],
-                is_active=True,
-                is_staff=False,
-                is_superuser=False,
-            )
-            user.set_password(user_data["password"])
-            user.save()
-            profile = Profile.objects.create(
-                user=user,
-                email=user_data["email"],
-                course=user_data["course"],
-                enrolled_year=user_data["enrolled_year"],
-                grade=user_data["grade"],
-                sex=user_data["sex"],
-            )
+            new_user = User(id=user_pk, username=user_data["username"], last_name=user_data["last_name"],
+                            first_name=user_data["first_name"], email=user_data["email"], is_staff=True, is_active=True, is_superuser=False)
+            new_user.set_password(user_data["password"])
+            new_users.append(new_user)
+            new_profile = Profile(
+                email=user_data["email"], course=user_data["course"], enrolled_year=user_data["enrolled_year"], grade=user_data["grade"], sex=user_data["sex"],)
             if user_data["group"] != '':
-                profile.group = Group.objects.get(name=user_data["group"])
+                new_profile.group = Group.objects.get(name=user_data["group"])
             if user_data["division"] != '':
-                profile.division = Division.objects.get(name=user_data["division"])
-            profile.save()
+                new_profile.division = Division.objects.get(name=user_data["division"])
+            new_profiles.append(new_profile)
             imported_users += 1
+        User.objects.bulk_create(new_users)
+        for profile in new_profiles:
+            profile.user = User.objects.get(email=profile.email)
+        Profile.objects.bulk_create(new_profiles)
         if imported_users > 0:
             messages.success(self.request, str(imported_users) + " 件のユーザーを読み込みました。")
         context = {
