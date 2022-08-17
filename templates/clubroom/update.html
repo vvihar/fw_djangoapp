@@ -35,54 +35,7 @@
                 あなたは、管理者権限を利用して、このページにアクセスしています。
             {% endif %}
         </p>
-        <div class="col-md-12">
-            <div class="form-floating mb-3">
-                {% render_field form.title class="form-control" placeholder="タイトル" %}
-                <label for="id_title">タイトル</label>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-floating mb-3">
-                {% render_field form.purpose class="form-control" placeholder="目的" aria-describedby="purposeHelp" %}
-                <label for="id_purpose">目的</label>
-                <div id="purposeHelp" class="form-text">任意</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-floating mb-3">
-                    {% render_field form.date class="form-control" placeholder="日付" type="date" %}
-                    <label for="id_date">日付</label>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-floating mb-3">
-                    {% render_field form.start_time class="form-control" placeholder="開始時刻" type="time" %}
-                    <label for="id_start_time">開始時刻</label>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-floating mb-3">
-                    {% render_field form.end_time class="form-control" placeholder="終了時刻" type="time" %}
-                    <label for="id_end_time">終了時刻</label>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-title">
-                        参加者
-                    </div>
-                    {% render_field form.participants class="form-control suggest" placeholder="参加者を検索" aria-describedby="participantsHelp" %}
-                    <div id="participantsHelp" class="form-text">
-                        姓のローマ字表記から始まるユーザー名を入力すると、候補を表示します。
-                        候補をクリックすることで確定します。
-                        確定した参加者をクリックすることで削除します。
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% include 'clubroom/reservation_form.html' %}
         <input type="hidden" name="person_in_charge" value="{{ object.person_in_charge.pk }}">
         <div class="col-12 mb-3">
             <button type="submit" class="btn btn-primary">適用</button>
