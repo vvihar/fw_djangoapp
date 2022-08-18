@@ -29,3 +29,31 @@ class QRcodeForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['bgcolor'].widget = forms.HiddenInput()
         self.fields['qrcolor'].widget = forms.HiddenInput()
+
+
+class PDFPageNumberForm(forms.Form):
+    pdf = forms.FileField(
+        label='PDFファイル', help_text='PDF形式のファイルをアップロードしてください。',
+        widget=forms.ClearableFileInput(),
+    )
+    title = forms.CharField(
+        max_length=30,
+        label="タイトル",
+        required=False,
+    )
+    start_from = forms.IntegerField(
+        required=False,
+        label='ページ番号の開始ページ',
+    )
+    end_at = forms.IntegerField(
+        required=False,
+        label='ページ番号の終了ページ',
+    )
+    margin_bottom = forms.IntegerField(
+        initial=40,
+        label='ページ下部の余白',
+    )
+    font_size = forms.IntegerField(
+        initial=11,
+        label='文字サイズ',
+    )
