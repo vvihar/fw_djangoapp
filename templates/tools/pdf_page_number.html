@@ -1,0 +1,85 @@
+{% extends "tools/base.html" %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% load widget_tweaks %}
+{% load url_target_blank %}
+
+{% block customcss %}
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@1.8.2/dist/themes/monolith.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+<style>
+    #qrcode-wrap {
+        background: {{ bgcolor }};
+        border-radius: calc(.25rem - 1px) 0 0 calc(.25rem - 1px);
+    }
+    .pickr .pcr-button::after {
+        border: 1px solid rgba(0,0,0,.125);
+    }
+</style>
+{% endblock customcss %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "PDFページ番号" "tools:pdf_page_number" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% include 'components/messages.html' %}
+    <p>
+        PDFファイルにページ番号を付与します。
+    </p>
+    <p>
+        <small class="text-muted">
+            表紙や裏表紙などにページ番号を付与したくない場合は、ページ番号の開始ページ・終了ページを指定して、該当ページを除外してください。
+        </small>
+    </p>
+    <form action="" method="post" class="row g-3 mb-3" enctype="multipart/form-data">{% csrf_token %}
+        <div class="col-md-12">
+            <div>
+                {% render_field form.pdf class="form-control" accept=".pdf" %}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-floating">
+                {% render_field form.title class="form-control" placeholder="タイトル" aria-describedby="titleHelp" %}
+                <label for="id_title">タイトル</label>
+                <div id="titleHelp" class="form-text">任意</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-floating">
+                {% render_field form.start_from class="form-control" placeholder="ページ番号の開始ページ" aria-describedby="startFromHelp" %}
+                <label for="id_start_from">ページ番号の開始ページ</label>
+                <div id="startFromHelp" class="form-text">デフォルトは1ページ目</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-floating">
+                {% render_field form.end_at class="form-control" placeholder="ページ番号の終了ページ" aria-describedby="endAtHelp" %}
+                <label for="id_end_at">ページ番号の終了ページ</label>
+                <div id="endAtHelp" class="form-text">デフォルトは最後のページ</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-floating">
+                {% render_field form.margin_bottom class="form-control" placeholder="ページ下部の余白" %}
+                <label for="id_margin_bottom">ページ下部の余白</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-floating">
+                {% render_field form.font_size class="form-control" placeholder="フォントサイズ" %}
+                <label for="id_font_size">フォントサイズ</label>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <button type="submit" class="btn btn-primary">送信</button>
+        </div>
+    </form>
+</div>
+<script src="{% static 'tools/qrcode/colorpicker.js' %}"></script>
+{% endblock content%}
