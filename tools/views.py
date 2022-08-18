@@ -3,10 +3,6 @@ from wsgiref.util import FileWrapper
 import os
 import tempfile
 from urllib import request
-from pdfrw.buildxobj import pagexobj
-from pdfrw.toreportlab import makerl
-from pdfrw import PdfReader
-from reportlab.pdfgen.canvas import Canvas
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -23,17 +19,21 @@ from io import BytesIO
 # for Handling PDF Files
 from pagelabels import PageLabels, PageLabelScheme
 from pdfrw import PdfReader, PdfWriter
+from pdfrw.buildxobj import pagexobj
+from pdfrw.toreportlab import makerl
+from pdfrw import PdfReader
+from reportlab.pdfgen.canvas import Canvas
 
 # Create your views here.
 
 
-@login_required
+# @login_required
 def index(request):
     return render(request, 'tools/index.html')
 
 
 # QR Code Generator
-@login_required
+# @login_required
 def qr(request):
     form = QRcodeForm(request.POST or None)
     if request.method == "POST":
@@ -73,7 +73,7 @@ def qr(request):
 
 
 # Logo Generator
-@login_required
+# @login_required
 def fw_logo(request):
     return render(request, 'tools/logo.html')
 # このアプリは実質的に Python ではなく、JavaScript で動いている
