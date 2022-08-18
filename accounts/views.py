@@ -168,12 +168,14 @@ class UserImport(generic.FormView):
 
     def form_valid(self, form):
         errors = []
+        new_users = []
+        new_profiles = []
         imported_users = 0
         # csv.readerに渡すため、TextIOWrapperでテキストモードなファイルに変換
         csvfile = io.TextIOWrapper(form.cleaned_data['file'], encoding='utf-8')
         reader = csv.reader(csvfile)
-        user_pk = User.objects.last().pk
         username_list = list(User.objects.values_list('username', flat=True))
+        email_list = list(User.objects.values_list('email', flat=True))
         # 1行ずつ取り出し、作成していく
         for row in reader:
             for i in range(len(row)):
@@ -207,39 +209,32 @@ class UserImport(generic.FormView):
                 messages.error(self.request, user_data["username"] +
                                " は、ユーザー名が他のユーザーと重複しているため、読み込まれませんでした。")
                 continue
+            if user_data["email"] in email_list:
+                messages.error(self.request, user_data["username"] +
+                               " は、メールアドレスが他のユーザーと重複しているため、読み込まれませんでした。")
+                continue
             if user_data["group"] != '' and not user_data["group"] in list(Group.objects.values_list('name', flat=True)):
                 messages.error(self.request, user_data["username"] + " は、班が存在しないため、読み込まれませんでした。")
                 continue
             if user_data["division"] != '' and not user_data["division"] in list(Division.objects.values_list('name', flat=True)):
                 messages.error(self.request, user_data["username"] + " は、担当が存在しないため、読み込まれませんでした。")
                 continue
-            user_pk += 1
-            user = User.objects.create(
-                id=user_pk,
-                username=user_data["username"],
-                email=user_data["email"],
-                first_name=user_data["first_name"],
-                last_name=user_data["last_name"],
-                is_active=True,
-                is_staff=False,
-                is_superuser=False,
-            )
-            user.set_password(user_data["password"])
-            user.save()
-            profile = Profile.objects.create(
-                user=user,
-                email=user_data["email"],
-                course=user_data["course"],
-                enrolled_year=user_data["enrolled_year"],
-                grade=user_data["grade"],
-                sex=user_data["sex"],
-            )
+            new_user = User(username=user_data["username"], last_name=user_data["last_name"],
+                            first_name=user_data["first_name"], email=user_data["email"], is_staff=True, is_active=True, is_superuser=False)  # 一旦 User モデルを作成
+            new_user.set_password(user_data["password"])  # パスワードをセット
+            new_users.append(new_user)  # User モデルを保存するためのリストに追加
+            new_profile = Profile(
+                email=user_data["email"], course=user_data["course"], enrolled_year=user_data["enrolled_year"], grade=user_data["grade"], sex=user_data["sex"],)  # 一旦 Profile モデルを作成
             if user_data["group"] != '':
-                profile.group = Group.objects.get(name=user_data["group"])
+                new_profile.group = Group.objects.get(name=user_data["group"])
             if user_data["division"] != '':
-                profile.division = Division.objects.get(name=user_data["division"])
-            profile.save()
+                new_profile.division = Division.objects.get(name=user_data["division"])
+            new_profiles.append(new_profile)  # Profile モデルを保存するためのリストに追加
             imported_users += 1
+        User.objects.bulk_create(new_users)  # User モデルをまとめて保存
+        for profile in new_profiles:
+            profile.user = User.objects.get(email=profile.email)
+        Profile.objects.bulk_create(new_profiles)  # Profile モデルをまとめて保存
         if imported_users > 0:
             messages.success(self.request, str(imported_users) + " 件のユーザーを読み込みました。")
         context = {
