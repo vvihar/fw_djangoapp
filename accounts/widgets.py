@@ -1,10 +1,13 @@
+"""アカウント関連のウィジェットを管理する"""
 from django import forms
 
 
 class SuggestWidget(forms.SelectMultiple):
+    """ユーザー補完用のウィジェット"""
     template_name = 'accounts/widgets/suggest.html'
 
     class Media:
+        """Metaクラス"""
         js = ('accounts/js/suggest.js',)
         css = {
             'all': ('accounts/css/suggest.css',)

@@ -1,23 +1,33 @@
+"""Accountsのビューを管理する"""
 import csv
-from django.views import generic
 import io
-from django.shortcuts import render, redirect
-from .forms import ProfileForm, UserCreateForm, UpdateProfileForm, UpdateUserForm, CSVUploadForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime
-from .models import Group, Division, Profile
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
+
+from .forms import (
+    ProfileForm,
+    UserCreateForm,
+    UpdateProfileForm,
+    UpdateUserForm,
+    CSVUploadForm,
+)
+from .models import Group, Division, Profile
 
 
 # Create your views here.
 
-@staff_member_required(login_url='accounts:login')
+
+@staff_member_required(login_url="accounts:login")
 def signup(request):
+    """新規登録"""
     user_form = UserCreateForm(request.POST or None)
     profile_form = ProfileForm(request.POST or None)
     if request.method == "POST" and user_form.is_valid() and profile_form.is_valid():
@@ -39,22 +49,24 @@ def signup(request):
         "user_form": user_form,
         "profile_form": profile_form,
     }
-    return render(request, 'accounts/signup.html', context)
+    return render(request, "accounts/signup.html", context)
 
 
 @login_required
 def profile_update(request):
+    """プロフィール更新"""
     if request.method == "POST":
         user_form = UpdateUserForm(request.POST or None, instance=request.user)
         profile_form = UpdateProfileForm(
-            request.POST or None, instance=request.user.profile)
+            request.POST or None, instance=request.user.profile
+        )
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
             profile = profile_form.save(commit=False)
             profile.save()
             user.email = profile.email
             user.save()
-            messages.success(request, 'ユーザー情報を更新しました。')
+            messages.success(request, "ユーザー情報を更新しました。")
             context = {
                 "user_form": user_form,
                 "profile_form": profile_form,
@@ -73,8 +85,12 @@ def profile_update(request):
 
 @login_required
 def index(request):
+    """トップページ"""
     senior_division_year = datetime.today().year - 2
-    if not request.user.profile.faculty and request.user.profile.enrolled_year <= senior_division_year:
+    if (
+        not request.user.profile.faculty
+        and request.user.profile.enrolled_year <= senior_division_year
+    ):
         messages.warning(request, "後期課程の進学先の情報を登録してください。")
     if not request.user.profile.group:
         messages.warning(request, "所属している班の情報を登録してください。")
@@ -84,86 +100,106 @@ def index(request):
 
 
 class GroupList(ListView):
-    template_name = 'accounts/group/list.html'
+    """班一覧"""
+
+    template_name = "accounts/group/list.html"
     model = Group
 
 
 class GroupCreate(CreateView):
-    template_name = 'accounts/group/create.html'
+    """班登録"""
+
+    template_name = "accounts/group/create.html"
     model = Group
-    fields = ('name',)
-    success_url = reverse_lazy('accounts:group')
+    fields = ("name",)
+    success_url = reverse_lazy("accounts:group")
 
     def form_valid(self, form):
-        messages.success(self.request, form.cleaned_data["name"] + 'を登録しました。')
+        messages.success(self.request, form.cleaned_data["name"] + "を登録しました。")
         return super().form_valid(form)
 
 
 class GroupDelete(DeleteView):
-    template_name = 'accounts/group/delete.html'
+    """班削除"""
+
+    template_name = "accounts/group/delete.html"
     model = Group
-    success_url = reverse_lazy('accounts:group')
+    success_url = reverse_lazy("accounts:group")
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, '班を削除しました。')
+        messages.success(self.request, "班を削除しました。")
         return super().delete(request, *args, **kwargs)
 
 
 class GroupUpdate(UpdateView):
-    template_name = 'accounts/group/update.html'
+    """班編集"""
+
+    template_name = "accounts/group/update.html"
     model = Group
-    fields = ('name',)
-    success_url = reverse_lazy('accounts:group')
+    fields = ("name",)
+    success_url = reverse_lazy("accounts:group")
 
     def form_valid(self, form):
-        messages.success(self.request, form.cleaned_data["name"] + 'を編集しました。')
+        messages.success(self.request, form.cleaned_data["name"] + "を編集しました。")
         return super().form_valid(form)
 
 
 class DivisionList(ListView):
-    template_name = 'accounts/division/list.html'
+    """担当一覧"""
+
+    template_name = "accounts/division/list.html"
     model = Division
 
 
 class DivisionCreate(CreateView):
-    template_name = 'accounts/division/create.html'
+    """担当登録"""
+
+    template_name = "accounts/division/create.html"
     model = Division
-    fields = ('name',)
-    success_url = reverse_lazy('accounts:division')
+    fields = ("name",)
+    success_url = reverse_lazy("accounts:division")
 
     def form_valid(self, form):
-        messages.success(self.request, form.cleaned_data["name"] + 'を登録しました。')
+        messages.success(self.request, form.cleaned_data["name"] + "を登録しました。")
         return super().form_valid(form)
 
 
 class DivisionDelete(DeleteView):
-    template_name = 'accounts/division/delete.html'
+    """担当削除"""
+
+    template_name = "accounts/division/delete.html"
     model = Division
-    success_url = reverse_lazy('accounts:division')
+    success_url = reverse_lazy("accounts:division")
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, '担当を削除しました。')
+        messages.success(self.request, "担当を削除しました。")
         return super().delete(request, *args, **kwargs)
 
 
 class DivisionUpdate(UpdateView):
-    template_name = 'accounts/division/update.html'
+    """担当編集"""
+
+    template_name = "accounts/division/update.html"
     model = Division
-    fields = ('name',)
-    success_url = reverse_lazy('accounts:division')
+    fields = ("name",)
+    success_url = reverse_lazy("accounts:division")
 
     def form_valid(self, form):
-        messages.success(self.request, form.cleaned_data["name"] + 'を編集しました。')
+        messages.success(self.request, form.cleaned_data["name"] + "を編集しました。")
         return super().form_valid(form)
 
 
 class UserList(ListView):
-    template_name = 'accounts/user/list.html'
+    """ユーザー一覧"""
+
+    template_name = "accounts/user/list.html"
     model = User
 
 
 class UserImport(generic.FormView):
-    template_name = 'accounts/user/import.html'
+    """ユーザー一括登録"""
+
+    template_name = "accounts/user/import.html"
     form_class = CSVUploadForm
 
     def form_valid(self, form):
@@ -172,10 +208,10 @@ class UserImport(generic.FormView):
         new_profiles = []
         imported_users = 0
         # csv.readerに渡すため、TextIOWrapperでテキストモードなファイルに変換
-        csvfile = io.TextIOWrapper(form.cleaned_data['file'], encoding='utf-8')
+        csvfile = io.TextIOWrapper(form.cleaned_data["file"], encoding="utf-8")
         reader = csv.reader(csvfile)
-        username_list = list(User.objects.values_list('username', flat=True))
-        email_list = list(User.objects.values_list('email', flat=True))
+        username_list = list(User.objects.values_list("username", flat=True))
+        email_list = list(User.objects.values_list("email", flat=True))
         # 1行ずつ取り出し、作成していく
         for row in reader:
             for i in range(len(row)):
@@ -193,41 +229,67 @@ class UserImport(generic.FormView):
                 "division": row[9],  # 担当
                 "password": row[10],
             }
-            if user_data["username"] == '':
+            if user_data["username"] == "":
                 messages.error(self.request, "ユーザー名が空白の行が見つかりました。")
                 continue
             error_count = 0
             for key, value in user_data.items():
-                if value == '' and key != "group" and key != "division":  # 担当、班は空白でも OK
-                    error_temp = user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。"
+                if value == "" and key != "group" and key != "division":  # 担当、班は空白でも OK
+                    error_temp = (
+                        user_data["username"] + " は、データに空白の項目が見つかったため、読み込まれませんでした。"
+                    )
                     if not error_temp in errors:
                         messages.error(self.request, error_temp)
                     error_count += 1
             if error_count > 0:
                 continue
             if user_data["username"] in username_list:
-                messages.error(self.request, user_data["username"] +
-                               " は、ユーザー名が他のユーザーと重複しているため、読み込まれませんでした。")
+                messages.error(
+                    self.request,
+                    user_data["username"] + " は、ユーザー名が他のユーザーと重複しているため、読み込まれませんでした。",
+                )
                 continue
             if user_data["email"] in email_list:
-                messages.error(self.request, user_data["username"] +
-                               " は、メールアドレスが他のユーザーと重複しているため、読み込まれませんでした。")
+                messages.error(
+                    self.request,
+                    user_data["username"] + " は、メールアドレスが他のユーザーと重複しているため、読み込まれませんでした。",
+                )
                 continue
-            if user_data["group"] != '' and not user_data["group"] in list(Group.objects.values_list('name', flat=True)):
-                messages.error(self.request, user_data["username"] + " は、班が存在しないため、読み込まれませんでした。")
+            if user_data["group"] != "" and not user_data["group"] in list(
+                Group.objects.values_list("name", flat=True)
+            ):
+                messages.error(
+                    self.request, user_data["username"] + " は、班が存在しないため、読み込まれませんでした。"
+                )
                 continue
-            if user_data["division"] != '' and not user_data["division"] in list(Division.objects.values_list('name', flat=True)):
-                messages.error(self.request, user_data["username"] + " は、担当が存在しないため、読み込まれませんでした。")
+            if user_data["division"] != "" and not user_data["division"] in list(
+                Division.objects.values_list("name", flat=True)
+            ):
+                messages.error(
+                    self.request, user_data["username"] + " は、担当が存在しないため、読み込まれませんでした。"
+                )
                 continue
-            new_user = User(username=user_data["username"], last_name=user_data["last_name"],
-                            first_name=user_data["first_name"], email=user_data["email"], is_staff=True, is_active=True, is_superuser=False)  # 一旦 User モデルを作成
+            new_user = User(
+                username=user_data["username"],
+                last_name=user_data["last_name"],
+                first_name=user_data["first_name"],
+                email=user_data["email"],
+                is_staff=True,
+                is_active=True,
+                is_superuser=False,
+            )  # 一旦 User モデルを作成
             new_user.set_password(user_data["password"])  # パスワードをセット
             new_users.append(new_user)  # User モデルを保存するためのリストに追加
             new_profile = Profile(
-                email=user_data["email"], course=user_data["course"], enrolled_year=user_data["enrolled_year"], grade=user_data["grade"], sex=user_data["sex"],)  # 一旦 Profile モデルを作成
-            if user_data["group"] != '':
+                email=user_data["email"],
+                course=user_data["course"],
+                enrolled_year=user_data["enrolled_year"],
+                grade=user_data["grade"],
+                sex=user_data["sex"],
+            )  # 一旦 Profile モデルを作成
+            if user_data["group"] != "":
                 new_profile.group = Group.objects.get(name=user_data["group"])
-            if user_data["division"] != '':
+            if user_data["division"] != "":
                 new_profile.division = Division.objects.get(name=user_data["division"])
             new_profiles.append(new_profile)  # Profile モデルを保存するためのリストに追加
             imported_users += 1
@@ -240,16 +302,18 @@ class UserImport(generic.FormView):
         context = {
             "form": form,
         }
-        return render(self.request, 'accounts/user/import.html', context)
+        return render(self.request, "accounts/user/import.html", context)
 
 
 @login_required
 def api_members_get(request):
-    # サジェスト候補のメンバーを JSON で返す。
-    keyword = request.GET.get('keyword')
+    """サジェスト候補のメンバーを JSON で返す。"""
+    keyword = request.GET.get("keyword")
     if keyword:
-        member_list = [{'pk': user.profile.pk, 'name': str(
-            user.last_name + ' ' + user.first_name)} for user in User.objects.filter(username__icontains=keyword).all()]
+        member_list = [
+            {"pk": user.profile.pk, "name": str(user.last_name + " " + user.first_name)}
+            for user in User.objects.filter(username__icontains=keyword).all()
+        ]
     else:
         member_list = []
-    return JsonResponse({'object_list': member_list})
+    return JsonResponse({"object_list": member_list})

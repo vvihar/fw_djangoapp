@@ -15,15 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import home  # views.pyから関数をimport
+from .views import Home  # views.pyから関数をimport
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', home.as_view(), name='home'),
-    path('accounts/', include('accounts.urls'), name="accounts"),
-    path('tools/', include('tools.urls'), name="tools"),
-    path('b303/', include('clubroom.urls'), name="clubroom"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+                  path('admin/', admin.site.urls),
+                  path('', Home.as_view(), name='home'),
+                  path('accounts/', include('accounts.urls'), name="accounts"),
+                  path('tools/', include('tools.urls'), name="tools"),
+                  path('b303/', include('clubroom.urls'), name="clubroom"),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+              + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

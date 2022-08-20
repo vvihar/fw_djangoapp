@@ -1,12 +1,15 @@
+"""Accountsのモデルを管理する"""
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
 
 
 # Create your models here.
 
 
 class Group(models.Model):
+    """班"""
+
     name = models.CharField(
         "班名",
         max_length=10,
@@ -17,11 +20,15 @@ class Group(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = '班'
-        verbose_name_plural = '班'
+        """Metaクラス"""
+
+        verbose_name = "班"
+        verbose_name_plural = "班"
 
 
 class Division(models.Model):
+    """担当"""
+
     name = models.CharField(
         "担当名",
         max_length=30,
@@ -32,12 +39,16 @@ class Division(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = '担当'
-        verbose_name_plural = '担当'
+        """Metaクラス"""
+
+        verbose_name = "担当"
+        verbose_name_plural = "担当"
 
 
 # Django 標準のユーザー管理機能における User モデルを拡張する
 class Profile(models.Model):
+    """プロフィール"""
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -53,12 +64,12 @@ class Profile(models.Model):
     )
 
     COURSE_CHOICES = (
-        ('理科一類', '理科一類'),
-        ('理科二類', '理科二類'),
-        ('理科三類', '理科三類'),
-        ('文科一類', '文科一類'),
-        ('文科二類', '文科二類'),
-        ('文科三類', '文科三類'),
+        ("理科一類", "理科一類"),
+        ("理科二類", "理科二類"),
+        ("理科三類", "理科三類"),
+        ("文科一類", "文科一類"),
+        ("文科二類", "文科二類"),
+        ("文科三類", "文科三類"),
     )
     course = models.CharField(
         verbose_name="科類",
@@ -68,16 +79,16 @@ class Profile(models.Model):
     )
 
     FACULTY_CHOICES = (
-        ('法学部', '法学部'),
-        ('医学部', '医学部'),
-        ('工学部', '工学部'),
-        ('文学部', '文学部'),
-        ('理学部', '理学部'),
-        ('農学部', '農学部'),
-        ('経済学部', '経済学部'),
-        ('教養学部', '教養学部'),
-        ('教育学部', '教育学部'),
-        ('薬学部', '薬学部'),
+        ("法学部", "法学部"),
+        ("医学部", "医学部"),
+        ("工学部", "工学部"),
+        ("文学部", "文学部"),
+        ("理学部", "理学部"),
+        ("農学部", "農学部"),
+        ("経済学部", "経済学部"),
+        ("教養学部", "教養学部"),
+        ("教育学部", "教育学部"),
+        ("薬学部", "薬学部"),
     )
     faculty = models.CharField(
         verbose_name="学部",
@@ -94,8 +105,7 @@ class Profile(models.Model):
     )
 
     ENROLLED_YEAR_CHOICES = (
-        (i, str(i) + "年度")
-        for i in range(2009, datetime.today().year + 1)
+        (i, str(i) + "年度") for i in range(2009, datetime.today().year + 1)
     )
     enrolled_year = models.IntegerField(
         verbose_name="入学年度",
@@ -104,10 +114,7 @@ class Profile(models.Model):
     )
 
     max_grade = datetime.today().year - 2009  # 最も若い期
-    GRADE_CHOICES = (
-        (i, str(i) + "期")
-        for i in range(0, max_grade + 1)
-    )
+    GRADE_CHOICES = ((i, str(i) + "期") for i in range(0, max_grade + 1))
     grade = models.IntegerField(
         verbose_name="期",
         choices=GRADE_CHOICES,
@@ -133,7 +140,7 @@ class Profile(models.Model):
         default=None,
         null=True,
         blank=True,
-        related_name="group_members"
+        related_name="group_members",
     )
 
     division = models.ForeignKey(
@@ -143,7 +150,7 @@ class Profile(models.Model):
         default=None,
         null=True,
         blank=True,
-        related_name="division_members"
+        related_name="division_members",
     )
 
     def __str__(self):
@@ -154,14 +161,16 @@ class Profile(models.Model):
         # user は Django 標準のユーザー管理機能から継承しているもの
 
     class Meta:
-        verbose_name = 'ユーザー'
-        verbose_name_plural = 'ユーザー'
+        """プロフィールの Meta クラス"""
+
+        verbose_name = "ユーザー"
+        verbose_name_plural = "ユーザー"
 
 
-'''
+"""
 データベース関連のコードを更新したら、
 python manage.py makemigrations
 python manage.py migrate
 でデータベースを更新する
 （これは user 周りに限らず、他のアプリの models.py に関してもそう）
-'''
+"""

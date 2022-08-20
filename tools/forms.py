@@ -1,9 +1,11 @@
-from distutils.log import error
-from email.policy import default
+"""Toolsのフォームを管理する"""
+
 from django import forms
 
 
 class QRcodeForm(forms.Form):
+    """QR Code Generator"""
+
     content = forms.CharField(
         max_length=255,
         required=True,
@@ -27,13 +29,16 @@ class QRcodeForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['bgcolor'].widget = forms.HiddenInput()
-        self.fields['qrcolor'].widget = forms.HiddenInput()
+        self.fields["bgcolor"].widget = forms.HiddenInput()
+        self.fields["qrcolor"].widget = forms.HiddenInput()
 
 
 class PDFPageNumberForm(forms.Form):
+    """PDFにページ番号を付与する"""
+
     pdf = forms.FileField(
-        label='PDFファイル', help_text='PDF形式のファイルをアップロードしてください。',
+        label="PDFファイル",
+        help_text="PDF形式のファイルをアップロードしてください。",
         widget=forms.ClearableFileInput(),
     )
     title = forms.CharField(
@@ -43,17 +48,17 @@ class PDFPageNumberForm(forms.Form):
     )
     start_from = forms.IntegerField(
         required=False,
-        label='ページ番号の開始ページ',
+        label="ページ番号の開始ページ",
     )
     end_at = forms.IntegerField(
         required=False,
-        label='ページ番号の終了ページ',
+        label="ページ番号の終了ページ",
     )
     margin_bottom = forms.IntegerField(
         initial=40,
-        label='ページ下部の余白',
+        label="ページ下部の余白",
     )
     font_size = forms.IntegerField(
         initial=11,
-        label='文字サイズ',
+        label="文字サイズ",
     )
