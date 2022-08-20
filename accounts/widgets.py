@@ -4,18 +4,18 @@ from django import forms
 
 class SuggestWidget(forms.SelectMultiple):
     """ユーザー補完用のウィジェット"""
-    template_name = 'accounts/widgets/suggest.html'
+
+    template_name = "accounts/widgets/suggest.html"
 
     class Media:
         """Metaクラス"""
-        js = ('accounts/js/suggest.js',)
-        css = {
-            'all': ('accounts/css/suggest.css',)
-        }
+
+        js = ("accounts/js/suggest.js",)
+        css = {"all": ("accounts/css/suggest.css",)}
 
     def __init__(self, attrs=None):
         super().__init__(attrs)
-        if 'class' in self.attrs:
-            self.attrs['class'] += ' suggest'
+        if "class" in self.attrs:
+            self.attrs["class"] += " suggest"
         else:
-            self.attrs['class'] = 'suggest'
+            self.attrs["class"] = "suggest"

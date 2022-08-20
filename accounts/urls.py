@@ -1,23 +1,23 @@
 """AccountsのURLを管理する"""
-from django.urls import path
-from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
-from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from django.urls import path, reverse_lazy
+
 from .views import (
-    signup,
-    profile_update,
-    index,
-    GroupList,
-    GroupCreate,
-    GroupDelete,
-    GroupUpdate,
-    DivisionList,
     DivisionCreate,
     DivisionDelete,
+    DivisionList,
     DivisionUpdate,
-    UserList,
+    GroupCreate,
+    GroupDelete,
+    GroupList,
+    GroupUpdate,
     UserImport,
+    UserList,
     api_members_get,
+    index,
+    profile_update,
+    signup,
 )
 
 app_name = "accounts"

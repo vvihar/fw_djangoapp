@@ -1,7 +1,8 @@
 """部室予約のフォームを管理する"""
+from accounts.widgets import SuggestWidget
 from django import forms
 from django.urls import reverse_lazy
-from accounts.widgets import SuggestWidget
+
 from .models import B303Reservation
 
 

@@ -2,25 +2,25 @@
 import csv
 import io
 from datetime import datetime
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView
-from django.views import generic
-from django.urls import reverse_lazy
-from django.contrib.auth.models import User
+
 from django.contrib import messages
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views import generic
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from .forms import (
+    CSVUploadForm,
     ProfileForm,
-    UserCreateForm,
     UpdateProfileForm,
     UpdateUserForm,
-    CSVUploadForm,
+    UserCreateForm,
 )
-from .models import Group, Division, Profile
-
+from .models import Division, Group, Profile
 
 # Create your views here.
 

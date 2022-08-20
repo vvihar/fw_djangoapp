@@ -1,6 +1,7 @@
 """部室予約のURLを管理する"""
 from django.urls import path
-from .views import index, Reservation, ReservationUpdate, ReservationCancel
+
+from .views import Reservation, ReservationCancel, ReservationUpdate, index
 
 app_name = "clubroom"
 

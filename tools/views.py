@@ -1,22 +1,24 @@
 """Tools"""
 
 import base64
-from io import BytesIO
-from wsgiref.util import FileWrapper
 import os
 import tempfile
+from io import BytesIO
+from wsgiref.util import FileWrapper
+
+import qrcode
+from django.contrib import messages
 from django.http import StreamingHttpResponse
 from django.shortcuts import render
-from django.contrib import messages
 
 # from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
-import qrcode
 from pdfrw import PdfReader
 from pdfrw.buildxobj import pagexobj
 from pdfrw.toreportlab import makerl
 from reportlab.pdfgen.canvas import Canvas
-from .forms import QRcodeForm, PDFPageNumberForm
+
+from .forms import PDFPageNumberForm, QRcodeForm
 
 # Create your views here.
 

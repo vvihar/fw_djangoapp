@@ -1,5 +1,5 @@
-from django.db import models
 from accounts.models import Profile
+from django.db import models
 
 # Create your models here.
 
@@ -27,11 +27,20 @@ class B303Reservation(models.Model):
         null=True,
         related_name="person_in_charge",
     )
-    participants = models.ManyToManyField(Profile, verbose_name='参加者', blank=True)
+    participants = models.ManyToManyField(Profile, verbose_name="参加者", blank=True)
 
     def __str__(self):
-        return self.date.strftime('%Y/%m/%d') + ' ' + self.start_time.strftime('%H:%M') + '-' + self.end_time.strftime('%H:%M') + '（' + self.title + '）'
+        return (
+            self.date.strftime("%Y/%m/%d")
+            + " "
+            + self.start_time.strftime("%H:%M")
+            + "-"
+            + self.end_time.strftime("%H:%M")
+            + "（"
+            + self.title
+            + "）"
+        )
 
     class Meta:
-        verbose_name = '部室予約'
-        verbose_name_plural = '部室予約'
+        verbose_name = "部室予約"
+        verbose_name_plural = "部室予約"

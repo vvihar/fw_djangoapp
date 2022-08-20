@@ -1,6 +1,7 @@
 """ToolsのURLを管理する"""
 from django.urls import path
-from .views import index, qrcode_generator, fw_logo, PDFPageNumber
+
+from .views import PDFPageNumber, fw_logo, index, qrcode_generator
 
 app_name = "tools"
 
