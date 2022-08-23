@@ -214,8 +214,8 @@ class UserImport(generic.FormView):
         email_list = list(User.objects.values_list("email", flat=True))
         # 1行ずつ取り出し、作成していく
         for row in reader:
-            for i in range(len(row)):
-                row[i] = row[i].strip().strip("'").strip('"')
+            for element in row:
+                element = element.strip()
             user_data = {
                 "username": row[0],
                 "last_name": row[1],  # 姓
@@ -274,7 +274,7 @@ class UserImport(generic.FormView):
                 last_name=user_data["last_name"],
                 first_name=user_data["first_name"],
                 email=user_data["email"],
-                is_staff=True,
+                is_staff=False,
                 is_active=True,
                 is_superuser=False,
             )  # 一旦 User モデルを作成
